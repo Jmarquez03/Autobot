@@ -1,0 +1,8 @@
+//rviz urdf test display
+    ros2 launch urdf_tutorial display.launch.py model:=/home/ieee/robot_ws/src/my_robot_description.urdf 
+
+// view frames in pdf
+    ros2 run tf2_tools view_frames
+
+//for launching slam toolbox
+    ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/param.yaml
