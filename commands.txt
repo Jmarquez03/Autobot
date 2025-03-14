@@ -6,3 +6,9 @@
 
 // launching slam toolbox
     ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_param.yaml
+
+//Running IMU node
+ros2 run bno055 bno055 --ros-args --params-file src/imu_pkg/bno055/bno055/params/bno055_params_i2c.yaml
+
+//launching my_robot_localization
+ros2 launch my_robot_localization ekf.launch.py 
