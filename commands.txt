@@ -1,14 +1,20 @@
 //rviz urdf display
-    ros2 launch urdf_tutorial display.launch.py model:=/home/ieee/robot_ws/src/my_robot_description.urdf 
+ros2 launch urdf_tutorial display.launch.py model:=/home/ieee/robot_ws/src/my_robot_description.urdf 
 
 // view frames in pdf
-    ros2 run tf2_tools view_frames
+ros2 run tf2_tools view_frames
 
 // launching slam toolbox
-    ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_param.yaml
+ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_param.yaml
 
 //Running IMU node
-ros2 run bno055 bno055 --ros-args --params-file src/imu_pkg/bno055/bno055/params/bno055_params_i2c.yaml
+ros2 run bno055 bno055 --ros-args --params-file src/bno055/bno055/params/bno055_params_i2c.yaml
 
-//launching my_robot_localization
-ros2 launch my_robot_localization ekf.launch.py 
+//launching robot_localization
+ros2 launch robot_localization ekf.launch.py 
+
+//see ros topics
+ros2 topic list
+
+//see data for ros topic
+ros2 topic echo /topic
