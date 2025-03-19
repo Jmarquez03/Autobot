@@ -4,10 +4,11 @@ from ament_index_python.packages import get_package_share_directory
 import os
 
 def generate_launch_description():
-    pkg_dir = get_package_share_directory('my_robot_localization')
+    pkg_dir = get_package_share_directory('sensor_fusion')
     ekf_config_path = os.path.join(pkg_dir, 'config', 'ekf_config.yaml')
     
     return LaunchDescription([
+        # Your EKF node
         Node(
             package='robot_localization',
             executable='ekf_node',
@@ -17,5 +18,13 @@ def generate_launch_description():
             remappings=[
                 ('odometry/filtered', 'odom/filtered')
             ]
+        ),
+        
+        # Our new sensor publisher node
+        Node(
+            package='sensor_fusion',
+            executable='sensor_publisher_node',
+            name='sensor_publisher_node',
+            output='screen'
         )
     ])

@@ -1,3 +1,7 @@
+//source
+source install/setup.bash
+
+
 //rviz urdf display
 ros2 launch urdf_tutorial display.launch.py model:=/home/ieee/robot_ws/src/my_robot_description.urdf 
 
@@ -5,16 +9,33 @@ ros2 launch urdf_tutorial display.launch.py model:=/home/ieee/robot_ws/src/my_ro
 ros2 run tf2_tools view_frames
 
 // launching slam toolbox
-ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_param.yaml
+ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_params.yaml
 
 //Running IMU node
 ros2 run bno055 bno055 --ros-args --params-file src/bno055/bno055/params/bno055_params_i2c.yaml
 
-//launching robot_localization
-ros2 launch robot_localization ekf.launch.py 
+//launching ekf
+ros2 launch sensor_fusion ekf.launch.py 
 
 //see ros topics
 ros2 topic list
 
 //see data for ros topic
 ros2 topic echo /topic
+
+//launching odom node
+ros2 launch robot_localization arduino_interface.launch.py
+
+//view what's connected to usb ports
+ls -la /dev | grep USB
+
+
+//give access to USB port one
+sudo chmod 777 /dev/ttyUSB1
+
+
+//launch lidar
+ros2 launch sllidar_ros2 view_sllidar_a1_launch.py
+
+//launching teleop keyboard
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
