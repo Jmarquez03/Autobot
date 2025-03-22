@@ -6,7 +6,7 @@
   <maintainer email="Jmarquezj545@gmail.com">ieee</maintainer>
   <license>TODO: License declaration</license>
 <version>0.5.0</version>
-<buildtool_depend>ament_python</buildtool_depend>
+<!-- <buildtool_depend>ament_python</buildtool_depend> -->
 
 <depend>robot_state_publisher</depend>
 <depend>joint_state_publisher</depend>
