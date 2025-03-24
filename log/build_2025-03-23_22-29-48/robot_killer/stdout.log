@@ -1,0 +1,20 @@
+running egg_info
+writing ../build/robot_killer/robot_killer.egg-info/PKG-INFO
+writing dependency_links to ../build/robot_killer/robot_killer.egg-info/dependency_links.txt
+writing entry points to ../build/robot_killer/robot_killer.egg-info/entry_points.txt
+writing requirements to ../build/robot_killer/robot_killer.egg-info/requires.txt
+writing top-level names to ../build/robot_killer/robot_killer.egg-info/top_level.txt
+reading manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+writing manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+copying package.xml -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer
+running install_egg_info
+removing '/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../build/robot_killer/robot_killer.egg-info to /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.0-py3.12.egg-info
+running install_scripts
+Installing my_node script to /home/zlove/botFire/Autobot/install/robot_killer/lib/robot_killer
+writing list of installed files to '/home/zlove/botFire/Autobot/build/robot_killer/install.log'

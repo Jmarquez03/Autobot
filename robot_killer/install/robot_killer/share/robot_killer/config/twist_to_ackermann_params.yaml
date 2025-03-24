@@ -1,0 +1,7 @@
+twist_to_ackermann:
+  ros__parameters:
+    wheelbase: 0.22  # distance between front and rear axles in meters
+    steering_angle_limit: 0.5  # max steering angle in radians (matches the URDF)
+    twist_topic: "/cmd_vel"
+    ackermann_topic: "/ackermann_cmd"
+    publish_rate: 50.0  # Hz 

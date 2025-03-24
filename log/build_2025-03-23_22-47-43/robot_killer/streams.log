@@ -1,0 +1,32 @@
+[2.085s] Invoking command in '/home/zlove/botFire/Autobot/robot_killer': AMENT_PREFIX_PATH=/home/zlove/botFire/Autobot/install/urdf_tutorial:/home/zlove/botFire/Autobot/install/twist_to_ackermann:/home/zlove/botFire/Autobot/install/sllidar_ros2:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/zlove/botFire/Autobot/install/sllidar_ros2:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/robot_killer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/urdf_tutorial/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_killer build --build-base /home/zlove/botFire/Autobot/build/robot_killer/build install --record /home/zlove/botFire/Autobot/build/robot_killer/install.log --single-version-externally-managed install_data
+[2.575s] running egg_info
+[2.601s] writing ../build/robot_killer/robot_killer.egg-info/PKG-INFO
+[2.601s] writing dependency_links to ../build/robot_killer/robot_killer.egg-info/dependency_links.txt
+[2.601s] deleting ../build/robot_killer/robot_killer.egg-info/entry_points.txt
+[2.602s] writing requirements to ../build/robot_killer/robot_killer.egg-info/requires.txt
+[2.602s] writing top-level names to ../build/robot_killer/robot_killer.egg-info/top_level.txt
+[2.673s] reading manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+[2.675s] writing manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+[2.676s] running build
+[2.676s] running build_py
+[2.677s] running install
+[2.684s] running install_lib
+[2.712s] running install_data
+[2.712s] creating /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.712s] copying launch/lidar.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.713s] copying launch/navigation.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.713s] copying launch/round1.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.715s] copying launch/twist_to_ackermann.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.715s] copying launch/bno055.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.716s] copying launch/rviz.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.716s] copying launch/slam.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.717s] copying launch/robot_state_publisher.launch.py -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/launch
+[2.717s] creating /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/config
+[2.718s] copying config/slam_params.yaml -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/config
+[2.718s] copying config/twist_to_ackermann_params.yaml -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/config
+[2.718s] copying config/nav2_params.yaml -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/config
+[2.720s] running install_egg_info
+[2.758s] Copying ../build/robot_killer/robot_killer.egg-info to /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.1-py3.12.egg-info
+[2.766s] running install_scripts
+[3.043s] writing list of installed files to '/home/zlove/botFire/Autobot/build/robot_killer/install.log'
+[3.087s] Invoked command in '/home/zlove/botFire/Autobot/robot_killer' returned '0': AMENT_PREFIX_PATH=/home/zlove/botFire/Autobot/install/urdf_tutorial:/home/zlove/botFire/Autobot/install/twist_to_ackermann:/home/zlove/botFire/Autobot/install/sllidar_ros2:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/zlove/botFire/Autobot/install/sllidar_ros2:${CMAKE_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/robot_killer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/urdf_tutorial/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_killer build --build-base /home/zlove/botFire/Autobot/build/robot_killer/build install --record /home/zlove/botFire/Autobot/build/robot_killer/install.log --single-version-externally-managed install_data

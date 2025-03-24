@@ -1,0 +1,46 @@
+running egg_info
+creating build/robot_killer/robot_killer.egg-info
+writing build/robot_killer/robot_killer.egg-info/PKG-INFO
+writing dependency_links to build/robot_killer/robot_killer.egg-info/dependency_links.txt
+writing requirements to build/robot_killer/robot_killer.egg-info/requires.txt
+writing top-level names to build/robot_killer/robot_killer.egg-info/top_level.txt
+writing manifest file 'build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+reading manifest file 'build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+writing manifest file 'build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build
+creating /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib
+creating /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib/robot_killer
+copying robot_killer/my_node.py -> /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib/robot_killer
+copying robot_killer/__init__.py -> /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib/robot_killer
+running install
+running install_lib
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer
+copying /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib/robot_killer/my_node.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer
+copying /home/zlove/botFire/Autobot/robot_killer/build/robot_killer/build/lib/robot_killer/__init__.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer
+byte-compiling /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer/my_node.py to my_node.cpython-312.pyc
+byte-compiling /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/ament_index
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/ament_index/resource_index
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/ament_index/resource_index/packages
+copying resource/robot_killer -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/ament_index/resource_index/packages
+copying package.xml -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/lidar.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/navigation.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/round1.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/twist_to_ackermann.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/bno055.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/rviz.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/slam.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+copying launch/robot_state_publisher.launch.py -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/launch
+creating /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/config
+copying config/slam_params.yaml -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/config
+copying config/twist_to_ackermann_params.yaml -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/config
+copying config/nav2_params.yaml -> /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/share/robot_killer/config
+running install_egg_info
+Copying build/robot_killer/robot_killer.egg-info to /home/zlove/botFire/Autobot/robot_killer/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.1-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/zlove/botFire/Autobot/robot_killer/build/robot_killer/install.log'

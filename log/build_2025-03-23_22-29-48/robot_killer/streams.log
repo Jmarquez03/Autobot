@@ -1,0 +1,22 @@
+[2.081s] Invoking command in '/home/zlove/botFire/Autobot/robot_killer': AMENT_PREFIX_PATH=/home/zlove/botFire/Autobot/install/urdf_tutorial:/home/zlove/botFire/Autobot/install/twist_to_ackermann:${AMENT_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/robot_killer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/urdf_tutorial/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_killer build --build-base /home/zlove/botFire/Autobot/build/robot_killer/build install --record /home/zlove/botFire/Autobot/build/robot_killer/install.log --single-version-externally-managed install_data
+[3.138s] running egg_info
+[3.231s] writing ../build/robot_killer/robot_killer.egg-info/PKG-INFO
+[3.236s] writing dependency_links to ../build/robot_killer/robot_killer.egg-info/dependency_links.txt
+[3.237s] writing entry points to ../build/robot_killer/robot_killer.egg-info/entry_points.txt
+[3.237s] writing requirements to ../build/robot_killer/robot_killer.egg-info/requires.txt
+[3.237s] writing top-level names to ../build/robot_killer/robot_killer.egg-info/top_level.txt
+[3.375s] reading manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+[3.377s] writing manifest file '../build/robot_killer/robot_killer.egg-info/SOURCES.txt'
+[3.378s] running build
+[3.378s] running build_py
+[3.379s] running install
+[3.390s] running install_lib
+[3.434s] running install_data
+[3.435s] copying package.xml -> /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer
+[3.436s] running install_egg_info
+[3.486s] removing '/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.0-py3.12.egg-info' (and everything under it)
+[3.487s] Copying ../build/robot_killer/robot_killer.egg-info to /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer-0.0.0-py3.12.egg-info
+[3.489s] running install_scripts
+[3.848s] Installing my_node script to /home/zlove/botFire/Autobot/install/robot_killer/lib/robot_killer
+[3.849s] writing list of installed files to '/home/zlove/botFire/Autobot/build/robot_killer/install.log'
+[3.993s] Invoked command in '/home/zlove/botFire/Autobot/robot_killer' returned '0': AMENT_PREFIX_PATH=/home/zlove/botFire/Autobot/install/urdf_tutorial:/home/zlove/botFire/Autobot/install/twist_to_ackermann:${AMENT_PREFIX_PATH} DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/robot_killer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/urdf_tutorial/lib/python3.12/site-packages:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/robot_killer build --build-base /home/zlove/botFire/Autobot/build/robot_killer/build install --record /home/zlove/botFire/Autobot/build/robot_killer/install.log --single-version-externally-managed install_data

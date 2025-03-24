@@ -1,0 +1,40 @@
+[2.917s] Invoking command in '/home/zlove/botFire/Autobot/twist_to_ackermann': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/twist_to_ackermann/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/twist_to_ackermann build --build-base /home/zlove/botFire/Autobot/build/twist_to_ackermann/build install --record /home/zlove/botFire/Autobot/build/twist_to_ackermann/install.log --single-version-externally-managed install_data
+[3.395s] running egg_info
+[3.395s] creating ../build/twist_to_ackermann/twist_to_ackermann.egg-info
+[3.428s] writing ../build/twist_to_ackermann/twist_to_ackermann.egg-info/PKG-INFO
+[3.429s] writing dependency_links to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/dependency_links.txt
+[3.429s] writing entry points to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/entry_points.txt
+[3.430s] writing requirements to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/requires.txt
+[3.430s] writing top-level names to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/top_level.txt
+[3.431s] writing manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+[3.495s] reading manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+[3.495s] writing manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+[3.496s] running build
+[3.497s] running build_py
+[3.498s] creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build
+[3.498s] creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib
+[3.498s] creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+[3.498s] copying twist_to_ackermann/twist_to_ackermann_node.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+[3.499s] copying twist_to_ackermann/servo_test.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+[3.499s] copying twist_to_ackermann/__init__.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+[3.500s] running install
+[3.509s] running install_lib
+[3.543s] creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+[3.544s] copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/twist_to_ackermann_node.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+[3.544s] copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/servo_test.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+[3.544s] copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/__init__.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+[3.544s] byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/twist_to_ackermann_node.py to twist_to_ackermann_node.cpython-312.pyc
+[3.547s] byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/servo_test.py to servo_test.cpython-312.pyc
+[3.547s] byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/__init__.py to __init__.cpython-312.pyc
+[3.548s] running install_data
+[3.551s] creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index
+[3.551s] creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index
+[3.551s] creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index/packages
+[3.551s] copying resource/twist_to_ackermann -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index/packages
+[3.551s] copying package.xml -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/twist_to_ackermann
+[3.551s] running install_egg_info
+[3.588s] Copying ../build/twist_to_ackermann/twist_to_ackermann.egg-info to /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann-0.0.0-py3.12.egg-info
+[3.592s] running install_scripts
+[3.858s] Installing twist_to_ackermann_converter script to /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/twist_to_ackermann
+[3.861s] writing list of installed files to '/home/zlove/botFire/Autobot/build/twist_to_ackermann/install.log'
+[4.003s] Invoked command in '/home/zlove/botFire/Autobot/twist_to_ackermann' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/twist_to_ackermann/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/twist_to_ackermann build --build-base /home/zlove/botFire/Autobot/build/twist_to_ackermann/build install --record /home/zlove/botFire/Autobot/build/twist_to_ackermann/install.log --single-version-externally-managed install_data

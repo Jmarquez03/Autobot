@@ -1,0 +1,38 @@
+running egg_info
+creating ../build/twist_to_ackermann/twist_to_ackermann.egg-info
+writing ../build/twist_to_ackermann/twist_to_ackermann.egg-info/PKG-INFO
+writing dependency_links to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/dependency_links.txt
+writing entry points to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/entry_points.txt
+writing requirements to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/requires.txt
+writing top-level names to ../build/twist_to_ackermann/twist_to_ackermann.egg-info/top_level.txt
+writing manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+reading manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+writing manifest file '../build/twist_to_ackermann/twist_to_ackermann.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build
+creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib
+creating /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+copying twist_to_ackermann/twist_to_ackermann_node.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+copying twist_to_ackermann/servo_test.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+copying twist_to_ackermann/__init__.py -> /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann
+running install
+running install_lib
+creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/twist_to_ackermann_node.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/servo_test.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+copying /home/zlove/botFire/Autobot/build/twist_to_ackermann/build/lib/twist_to_ackermann/__init__.py -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann
+byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/twist_to_ackermann_node.py to twist_to_ackermann_node.cpython-312.pyc
+byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/servo_test.py to servo_test.cpython-312.pyc
+byte-compiling /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index
+creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index
+creating /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index/packages
+copying resource/twist_to_ackermann -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/ament_index/resource_index/packages
+copying package.xml -> /home/zlove/botFire/Autobot/install/twist_to_ackermann/share/twist_to_ackermann
+running install_egg_info
+Copying ../build/twist_to_ackermann/twist_to_ackermann.egg-info to /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/python3.12/site-packages/twist_to_ackermann-0.0.0-py3.12.egg-info
+running install_scripts
+Installing twist_to_ackermann_converter script to /home/zlove/botFire/Autobot/install/twist_to_ackermann/lib/twist_to_ackermann
+writing list of installed files to '/home/zlove/botFire/Autobot/build/twist_to_ackermann/install.log'

@@ -1,0 +1,8 @@
+[0.000000] (-) TimerEvent: {}
+[0.002041] (-) JobUnselected: {'identifier': 'robot_description'}
+[0.002141] (-) JobUnselected: {'identifier': 'twist_to_ackermann'}
+[0.002263] (-) JobUnselected: {'identifier': 'urdf_tutorial'}
+[0.002302] (robot_killer) JobQueued: {'identifier': 'robot_killer', 'dependencies': OrderedDict({'twist_to_ackermann': '/home/zlove/botFire/Autobot/install/twist_to_ackermann', 'urdf_tutorial': '/home/zlove/botFire/Autobot/install/urdf_tutorial'})}
+[0.002344] (robot_killer) JobStarted: {'identifier': 'robot_killer'}
+[0.039637] (robot_killer) JobEnded: {'identifier': 'robot_killer', 'rc': 1}
+[0.052171] (-) EventReactorShutdown: {}
