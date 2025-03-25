@@ -64,6 +64,11 @@ class MissionController(Node):
             '/mission_status',
             10)
             
+        # self.hose_control_pub = self.create_publisher(
+        #     String,
+        #     '/hose_control',
+        #     10)
+            
         # Initialize timers
         self.state_timer = self.create_timer(1.0, self.state_machine_callback)
         self.pose_timer = self.create_timer(0.5, self.update_pose)
