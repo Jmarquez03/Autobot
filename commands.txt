@@ -5,7 +5,7 @@ source install/setup.bash
 ros2 run tf2_tools view_frames
 
 // launching slam toolbox
-ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_params.yaml
+ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/slam_toolbox/slam_toolbox_params.yaml use_sim_time:=false
 
 
 
@@ -31,7 +31,8 @@ sudo chmod 777 /dev/ttyUSB1
 
 
 //launch lidar
-ros2 launch sllidar_ros2 view_sllidar_a1_launch.py
+ros2 launch sllidar_ros2 sllidar_a1_launch.py use_sim_time:=false serial_port:=/dev/ttyUSB2
+
 
 //launching teleop keyboard
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
