@@ -18,6 +18,9 @@ setup(
         # Include all config files
         (os.path.join('share', package_name, 'config'),
          glob(os.path.join('config', '*.yaml'))),
+        # Include URDF files
+        (os.path.join('share', package_name, 'urdf'),
+         glob(os.path.join('urdf', '*.urdf.xml'))),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -28,6 +31,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'mission_controller = robot_killer.mission_controller:main',
+            'fire_detector_node = robot_killer.fire_deector_node:main',
+            'temperature_simulator = robot_killer.temerature_simulator:main',
+            'my_node = robot_killer.my_node:main',
         ],
     },
 )

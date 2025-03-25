@@ -12,7 +12,7 @@ def generate_launch_description():
     
     # Parameters for the BNO055 IMU
     port = LaunchConfiguration('port', default='/dev/ttyUSB1')  # Change to match your system
-    frame_id = LaunchConfiguration('frame_id', default='imu_link')
+    frame_id = LaunchConfiguration('frame_id', default='imu_link')  # Matches the URDF
     
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -28,7 +28,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'frame_id',
             default_value='imu_link',
-            description='Frame ID for the IMU messages'),
+            description='Frame ID for the IMU messages - matches URDF'),
             
         # BNO055 node
         Node(
@@ -47,14 +47,5 @@ def generate_launch_description():
                 'use_magnetometer': True,
                 'use_temperature': True
             }],
-        ),
-        
-        # Static transform publisher from IMU to base_link
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='static_tf_imu_base',
-            arguments=['0', '0', '0.03', '0', '0', '0', 'base_link', 'imu_link'],
-            output='screen',
         ),
     ]) 

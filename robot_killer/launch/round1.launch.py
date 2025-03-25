@@ -21,6 +21,11 @@ def generate_launch_description():
     use_rviz = LaunchConfiguration('use_rviz', default='true')
     rviz_config_file = LaunchConfiguration('rviz_config_file', default=os.path.join(robot_killer_dir, 'config', 'rviz_config.rviz'))
     
+    # Device configurations
+    lidar_port = LaunchConfiguration('lidar_port', default='/dev/ttyUSB0')
+    imu_port = LaunchConfiguration('imu_port', default='/dev/ttyUSB1')
+    esp32_port = LaunchConfiguration('esp32_port', default='/dev/ttyUSB0')
+    
     # Mode selection parameter (slam or navigation)
     mode = LaunchConfiguration('mode', default='slam')
     slam_mode_condition = IfCondition(PythonExpression(['\'', mode, '\' == \'slam\'']))
@@ -38,12 +43,26 @@ def generate_launch_description():
     
     lidar_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'lidar.launch.py')]),
-        launch_arguments={'use_sim_time': use_sim_time}.items()
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'serial_port': lidar_port
+        }.items()
     )
     
     imu_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'bno055.launch.py')]),
-        launch_arguments={'use_sim_time': use_sim_time}.items()
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'port': imu_port
+        }.items()
+    )
+    
+    esp32_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'esp32.launch.py')]),
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'serial_port': esp32_port
+        }.items()
     )
     
     twist_to_ackermann_launch = IncludeLaunchDescription(
@@ -55,7 +74,13 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'slam.launch.py')]),
             launch_arguments={
-                'use_sim_time': use_sim_time
+                'use_sim_time': use_sim_time,
+                'lidar_port': lidar_port,
+                'imu_port': imu_port,
+                'controller_port': esp32_port,
+                'slam_mode': 'mapping',
+                'use_rviz': use_rviz,
+                'rviz_config': rviz_config_file
             }.items()
         )
     ], condition=slam_mode_condition)
@@ -264,10 +289,30 @@ def generate_launch_description():
             description='Enable autonomous operation if true'
         ),
         
+        # Device port arguments
+        DeclareLaunchArgument(
+            'lidar_port',
+            default_value='/dev/ttyUSB0',
+            description='Serial port for the LIDAR'
+        ),
+        
+        DeclareLaunchArgument(
+            'imu_port',
+            default_value='/dev/ttyUSB1',
+            description='Serial port for the BNO055 IMU'
+        ),
+        
+        DeclareLaunchArgument(
+            'esp32_port',
+            default_value='/dev/ttyUSB0',
+            description='Serial port for the ESP32 controller'
+        ),
+        
         # Common components
         robot_state_publisher_launch,
         lidar_launch,
         imu_launch,
+        esp32_launch,
         twist_to_ackermann_launch,
         
         # Mode-dependent components

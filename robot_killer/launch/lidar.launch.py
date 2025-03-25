@@ -14,7 +14,7 @@ def generate_launch_description():
     lidar_params = {
         'serial_port': '/dev/ttyUSB0',  # Change this to your lidar's port
         'serial_baudrate': 115200,       # Change based on your lidar model
-        'frame_id': 'laser',             # This matches the RViz config
+        'frame_id': 'laser',             # This matches the RViz config and URDF
         'inverted': False,
         'angle_compensate': True,
         'scan_mode': 'Standard',
@@ -32,16 +32,6 @@ def generate_launch_description():
             default_value='false',
             description='Use simulation clock if true'),
             
-        # Add a static transform publisher
-        # This connects the "laser" frame to a base frame "base_link"
-        # Parameters: x y z qx qy qz qw parent_frame child_frame
-        Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='static_transform_publisher',
-            arguments=['0', '0', '0', '0', '0', '0', '1', 'base_link', 'laser'],
-        ),
-        
         # The sllidar driver node
         Node(
             package='sllidar_ros2',
@@ -52,13 +42,13 @@ def generate_launch_description():
             output='screen',
         ),
         
-        # Launch RViz2 for visualization
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            parameters=[{'use_sim_time': use_sim_time}],
-            output='screen',
-        ),
+        # Launch RViz2 for visualization (optional)
+        # Node(
+        #     package='rviz2',
+        #     executable='rviz2',
+        #     name='rviz2',
+        #     arguments=['-d', rviz_config_dir],
+        #     parameters=[{'use_sim_time': use_sim_time}],
+        #     output='screen',
+        # ),
     ]) 

@@ -13,14 +13,13 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
-        (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Your Name',
-    maintainer_email='your.email@example.com',
-    description='Interface package for communication with ESP32 microcontroller',
-    license='Apache License 2.0',
+    maintainer='ieee',
+    maintainer_email='user@todo.todo',
+    description='Package for interfacing with ESP32 encoder data and controlling motors',
+    license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [

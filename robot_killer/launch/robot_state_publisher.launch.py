@@ -9,11 +9,11 @@ from launch.conditions import IfCondition, UnlessCondition
 
 
 def generate_launch_description():
-    # Get the launch directory
-    urdf_tutorial_dir = get_package_share_directory('urdf_tutorial')
+    # Get the package directory
+    robot_killer_dir = get_package_share_directory('robot_killer')
     
-    # Load the URDF file
-    urdf_file = os.path.join(urdf_tutorial_dir, 'urdf', 'robot.urdf.xml')
+    # Load the URDF file from the robot_killer package
+    urdf_file = os.path.join(robot_killer_dir, 'urdf', 'robot.urdf.xml')
     
     with open(urdf_file, 'r') as infp:
         robot_desc = infp.read()

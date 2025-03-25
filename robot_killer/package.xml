@@ -32,6 +32,7 @@
   <depend>twist_to_ackermann</depend>
   <depend>sllidar_ros2</depend>
   <depend>bno055</depend>
+  <depend>esp32_interface</depend>
   <depend>rviz2</depend>
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher</depend>
