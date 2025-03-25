@@ -11,7 +11,7 @@ def generate_launch_description():
     # Get the URDF file path
     urdf_file_name = 'robot.urdf.xml'
     urdf = os.path.join(
-        get_package_share_directory('urdf_tutorial'),
+        get_package_share_directory('robot_visualization'),
         urdf_file_name)
     
     # Create a LaunchDescription with the necessary nodes

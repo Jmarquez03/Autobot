@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 import os
 from glob import glob
-package_name = 'urdf_tutorial'
+package_name = 'robot_visualization'
 
 setup(
     name=package_name,
@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-    'state_publisher = urdf_tutorial.state_publisher:main'
+    'state_publisher = robot_visualization.state_publisher:main'
 ],
     },
 )
