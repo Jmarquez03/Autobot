@@ -1,0 +1,41 @@
+[2.047s] Invoking command in '/home/zlove/botFire/Autobot/esp32_interface': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/esp32_interface/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/esp32_interface build --build-base /home/zlove/botFire/Autobot/build/esp32_interface/build install --record /home/zlove/botFire/Autobot/build/esp32_interface/install.log --single-version-externally-managed install_data
+[2.536s] running egg_info
+[2.536s] creating ../build/esp32_interface/esp32_interface.egg-info
+[2.567s] writing ../build/esp32_interface/esp32_interface.egg-info/PKG-INFO
+[2.567s] writing dependency_links to ../build/esp32_interface/esp32_interface.egg-info/dependency_links.txt
+[2.567s] writing entry points to ../build/esp32_interface/esp32_interface.egg-info/entry_points.txt
+[2.567s] writing requirements to ../build/esp32_interface/esp32_interface.egg-info/requires.txt
+[2.568s] writing top-level names to ../build/esp32_interface/esp32_interface.egg-info/top_level.txt
+[2.568s] writing manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+[2.619s] reading manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+[2.619s] writing manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+[2.620s] running build
+[2.620s] running build_py
+[2.621s] creating /home/zlove/botFire/Autobot/build/esp32_interface/build
+[2.621s] creating /home/zlove/botFire/Autobot/build/esp32_interface/build/lib
+[2.621s] creating /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+[2.622s] copying esp32_interface/esp32_odometry_node.py -> /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+[2.623s] copying esp32_interface/__init__.py -> /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+[2.623s] running install
+[2.632s] running install_lib
+[2.665s] creating /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+[2.666s] copying /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface/esp32_odometry_node.py -> /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+[2.667s] copying /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface/__init__.py -> /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+[2.668s] byte-compiling /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface/esp32_odometry_node.py to esp32_odometry_node.cpython-312.pyc
+[2.671s] byte-compiling /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface/__init__.py to __init__.cpython-312.pyc
+[2.672s] running install_data
+[2.672s] creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index
+[2.672s] creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index
+[2.672s] creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index/packages
+[2.672s] copying resource/esp32_interface -> /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index/packages
+[2.672s] copying package.xml -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface
+[2.672s] creating /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/launch
+[2.673s] copying launch/esp32.launch.py -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/launch
+[2.673s] creating /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/config
+[2.673s] copying config/esp32_params.yaml -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/config
+[2.673s] running install_egg_info
+[2.701s] Copying ../build/esp32_interface/esp32_interface.egg-info to /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface-0.0.1-py3.12.egg-info
+[2.703s] running install_scripts
+[3.047s] Installing esp32_odometry_node script to /home/zlove/botFire/Autobot/install/esp32_interface/bin
+[3.048s] writing list of installed files to '/home/zlove/botFire/Autobot/build/esp32_interface/install.log'
+[3.097s] Invoked command in '/home/zlove/botFire/Autobot/esp32_interface' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/zlove/botFire/Autobot/build/esp32_interface/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/esp32_interface build --build-base /home/zlove/botFire/Autobot/build/esp32_interface/build install --record /home/zlove/botFire/Autobot/build/esp32_interface/install.log --single-version-externally-managed install_data

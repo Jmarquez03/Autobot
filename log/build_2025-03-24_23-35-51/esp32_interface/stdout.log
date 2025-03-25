@@ -1,0 +1,39 @@
+running egg_info
+creating ../build/esp32_interface/esp32_interface.egg-info
+writing ../build/esp32_interface/esp32_interface.egg-info/PKG-INFO
+writing dependency_links to ../build/esp32_interface/esp32_interface.egg-info/dependency_links.txt
+writing entry points to ../build/esp32_interface/esp32_interface.egg-info/entry_points.txt
+writing requirements to ../build/esp32_interface/esp32_interface.egg-info/requires.txt
+writing top-level names to ../build/esp32_interface/esp32_interface.egg-info/top_level.txt
+writing manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+reading manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+writing manifest file '../build/esp32_interface/esp32_interface.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/zlove/botFire/Autobot/build/esp32_interface/build
+creating /home/zlove/botFire/Autobot/build/esp32_interface/build/lib
+creating /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+copying esp32_interface/esp32_odometry_node.py -> /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+copying esp32_interface/__init__.py -> /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface
+running install
+running install_lib
+creating /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+copying /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface/esp32_odometry_node.py -> /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+copying /home/zlove/botFire/Autobot/build/esp32_interface/build/lib/esp32_interface/__init__.py -> /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface
+byte-compiling /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface/esp32_odometry_node.py to esp32_odometry_node.cpython-312.pyc
+byte-compiling /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index
+creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index
+creating /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index/packages
+copying resource/esp32_interface -> /home/zlove/botFire/Autobot/install/esp32_interface/share/ament_index/resource_index/packages
+copying package.xml -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface
+creating /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/launch
+copying launch/esp32.launch.py -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/launch
+creating /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/config
+copying config/esp32_params.yaml -> /home/zlove/botFire/Autobot/install/esp32_interface/share/esp32_interface/config
+running install_egg_info
+Copying ../build/esp32_interface/esp32_interface.egg-info to /home/zlove/botFire/Autobot/install/esp32_interface/lib/python3.12/site-packages/esp32_interface-0.0.1-py3.12.egg-info
+running install_scripts
+Installing esp32_odometry_node script to /home/zlove/botFire/Autobot/install/esp32_interface/bin
+writing list of installed files to '/home/zlove/botFire/Autobot/build/esp32_interface/install.log'

@@ -26,6 +26,10 @@ def generate_launch_description():
     slam_mode_condition = IfCondition(PythonExpression(['\'', mode, '\' == \'slam\'']))
     nav_mode_condition = IfCondition(PythonExpression(['\'', mode, '\' == \'nav\'']))
     
+    # Autonomous mode (true for fully autonomous operation)
+    autonomous = LaunchConfiguration('autonomous', default='false')
+    autonomous_condition = IfCondition(autonomous)
+    
     # Include individual launch files
     robot_state_publisher_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'robot_state_publisher.launch.py')]),
@@ -162,6 +166,50 @@ def generate_launch_description():
         )
     ])
     
+    # NEW: Add autonomous nodes
+    autonomous_nodes = GroupAction([
+        # Fire detector node
+        Node(
+            package='robot_killer',
+            executable='fire_detector_node',
+            name='fire_detector',
+            output='screen',
+            parameters=[{
+                'use_sim_time': use_sim_time,
+                'temperature_threshold': 50.0,
+                'confidence_threshold': 0.7,
+                'window_size': 10
+            }],
+            condition=autonomous_condition
+        ),
+        
+        # Hose controller node
+        # Node(
+        #     package='robot_killer',
+        #     executable='hose_controller',
+        #     name='hose_controller',
+        #     output='screen',
+        #     parameters=[{'use_sim_time': use_sim_time}],
+        #     condition=autonomous_condition
+        # ),
+        
+        # Mission controller node
+        Node(
+            package='robot_killer',
+            executable='mission_controller',
+            name='mission_controller',
+            output='screen',
+            parameters=[{
+                'use_sim_time': use_sim_time,
+                'exploration_radius': 3.0,
+                'exploration_points': 8,
+                'fire_approach_distance': 0.5,
+                'return_timeout': 180.0
+            }],
+            condition=autonomous_condition
+        )
+    ])
+    
     rviz_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(robot_killer_dir, 'launch', 'rviz.launch.py')]),
         launch_arguments={
@@ -209,6 +257,13 @@ def generate_launch_description():
             description='Operating mode: slam or nav'
         ),
         
+        # NEW: Add autonomous mode parameter
+        DeclareLaunchArgument(
+            'autonomous',
+            default_value='false',
+            description='Enable autonomous operation if true'
+        ),
+        
         # Common components
         robot_state_publisher_launch,
         lidar_launch,
@@ -218,6 +273,9 @@ def generate_launch_description():
         # Mode-dependent components
         slam_launch,
         navigation_launch,
+        
+        # Autonomous components
+        autonomous_nodes,
         
         # Visualization
         rviz_launch

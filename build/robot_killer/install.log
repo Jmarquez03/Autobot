@@ -1,6 +1,12 @@
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/mission_controller.py
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/fire_deector_node.py
 /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/my_node.py
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/temerature_simulator.py
 /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__init__.py
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__pycache__/mission_controller.cpython-312.pyc
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__pycache__/fire_deector_node.cpython-312.pyc
 /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__pycache__/my_node.cpython-312.pyc
+/home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__pycache__/temerature_simulator.cpython-312.pyc
 /home/zlove/botFire/Autobot/install/robot_killer/lib/python3.12/site-packages/robot_killer/__pycache__/__init__.cpython-312.pyc
 /home/zlove/botFire/Autobot/install/robot_killer/share/ament_index/resource_index/packages/robot_killer
 /home/zlove/botFire/Autobot/install/robot_killer/share/robot_killer/package.xml

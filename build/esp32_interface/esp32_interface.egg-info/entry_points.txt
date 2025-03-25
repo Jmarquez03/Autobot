@@ -1,0 +1,2 @@
+[console_scripts]
+esp32_odometry_node = esp32_interface.esp32_odometry_node:main

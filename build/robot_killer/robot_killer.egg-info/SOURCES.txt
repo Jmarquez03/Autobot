@@ -20,7 +20,10 @@ launch/slam.launch.py
 launch/twist_to_ackermann.launch.py
 resource/robot_killer
 robot_killer/__init__.py
+robot_killer/fire_deector_node.py
+robot_killer/mission_controller.py
 robot_killer/my_node.py
+robot_killer/temerature_simulator.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
