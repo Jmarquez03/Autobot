@@ -43,9 +43,11 @@ ros2 launch urdf_tutorial demo.launch.py
 //Send empty time
 ros2 topic pub /reset_time std_msgs/msg/Empty "{}"
 
+//lidar launch
+ros2 run rplidar_ros rplidar_composition --ros-args -p serial_port:=/dev/ttyUSB0 -p frame_id:=laser_frame -p angle_compensate:=true -p scan_mode:=Standard
 
 //for odom from esp32
 cd microros_ws
 source /opt/ros/jazzy/setup.bash
 source install/local_setup.bash
-ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB1
+ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyUSB2
