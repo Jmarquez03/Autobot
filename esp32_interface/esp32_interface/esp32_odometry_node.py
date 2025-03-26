@@ -10,7 +10,17 @@ from geometry_msgs.msg import TransformStamped
 class ESP32OdometryNode(Node):
     def __init__(self):
         super().__init__('esp32_odometry_node')
-        self.serial_port = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+        
+        # Declare parameters
+        self.declare_parameter('serial_port', '/dev/ttyUSB1')
+        self.declare_parameter('baud_rate', 115200)
+        
+        # Get parameters
+        serial_port = self.get_parameter('serial_port').value
+        baud_rate = self.get_parameter('baud_rate').value
+        
+        self.get_logger().info(f'Opening serial port: {serial_port} at {baud_rate} baud')
+        self.serial_port = serial.Serial(serial_port, baud_rate, timeout=1)
         
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
         self.cmd_vel_sub = self.create_subscription(Twist, 'cmd_vel', self.cmd_vel_callback, 10)
