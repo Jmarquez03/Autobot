@@ -17,15 +17,13 @@ ros2 launch esp32_interface esp32_interface.launch.py serial_port:=/dev/ttyUSB0
 ros2 run tf2_tools view_frames
 
 // launching slam toolbox
-ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/config/slam_toolbox_params.yaml use_sim_time:=false
+ros2 launch slam_toolbox online_async_launch.py params_file:=./robot_ws/src/main/config/slam_toolbox_params.yaml use_sim_time:=false
 
-
-
-
-
+//servo motors
+ros2 run twist_to_ackermann twist_to_ackermann_converter 
 
 //launching robot_localization
-ros2 launch robot_localization ekf.launch.py params_file:=/home/ieee/robot_ws/src/config/robot_local_params.yaml
+ros2 launch robot_localization ekf.launch.py params_file:=/home/ieee/robot_ws/src/main/config/robot_local_params.yaml
 
 //see ros topics
 ros2 topic list
