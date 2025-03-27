@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>autobot_core</name>
+  <version>1.0.0</version>
+  <description>Central package for launching all robot components</description>
+  <maintainer email="Jmarquezj545@gmail.com">ieee</maintainer>
+  <license>Apache-2.0</license>
+
+  <!-- Build dependencies that make things compile -->
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <!-- Core ROS dependencies -->
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>robot_state_publisher</depend>
+  <depend>joint_state_publisher_gui</depend>
+  <depend>rviz2</depend>
+  
+  <!-- Message type dependencies -->
+  <depend>ackermann_msgs</depend>
+
+  <!-- Hardware dependencies -->
+  <exec_depend>python3-serial</exec_depend>
+  <exec_depend>python3-smbus</exec_depend>
+  <exec_depend>udev</exec_depend>
+
+  <!-- Component dependencies -->
+  <exec_depend>robot_visualization</exec_depend>
+  <exec_depend>sllidar_ros2</exec_depend>
+  <exec_depend>bno055</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  <!-- Make sure these dependencies are included -->
+    <depend>geometry_msgs</depend>
+    <depend>ackermann_msgs</depend>
+    <!-- Remove this line since it's now integrated -->
+    <!-- <exec_depend>twist_to_ackermann</exec_depend> -->
+  <exec_depend>robot_localization</exec_depend>
+
+  <!-- Testing suite -->
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
