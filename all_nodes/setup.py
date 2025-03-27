@@ -18,9 +18,9 @@ setup(
         (os.path.join('share', package_name, 'launch'), 
          glob(os.path.join('launch', '*.launch.py'))),
         
-        # Config files
+        # Config files - include both yaml and rviz files
         (os.path.join('share', package_name, 'config'),
-         glob('config/*.yaml')),
+         glob('config/*.yaml') + glob('config/*.rviz')),
          
         # # Add these steamy extras for full compliance
         # (os.path.join('share', package_name, 'meshes'), 
@@ -32,12 +32,12 @@ setup(
     zip_safe=True,
     maintainer='ieee',
     maintainer_email='Jmarquezj545@gmail.com',
-    description='Your irresistible robot control package',
+    description='Central package for launching all robot components',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'all_nodes = all_nodes.launch.all_nodes:generate_launch_description',
+            # Remove incorrect launch entry point
         ],
     },
 )
