@@ -11,7 +11,7 @@
   <buildtool_depend>ament_cmake_python</buildtool_depend>
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 
-  <!-- Core ROS dependencies -->
+  <!-- Consolidated ROS dependencies -->
   <depend>rclpy</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
@@ -20,12 +20,25 @@
   <depend>tf2_ros</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
+  <depend>ackermann_msgs</depend>  <!-- Moved message deps together -->
+
++  <!-- Nav2 dependencies -->
++  <depend>nav2_common</depend>
++  <depend>nav2_controller</depend>
++  <depend>nav2_core</depend>
++  <depend>nav2_costmap_2d</depend>
++  <depend>nav2_msgs</depend>
++  <depend>nav2_smoother</depend>
++  <depend>nav2_waypoint_follower</depend>
++  <depend>nav2_mppi_controller</depend>
++  <depend>nav2_behaviors</depend>
++  <depend>nav2_navfn_planner</depend>
++  <depend>opennav_docking</depend>
+
+  <!-- Visualization & Publishing -->
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
   <depend>rviz2</depend>
-  
-  <!-- Message type dependencies -->
-  <depend>ackermann_msgs</depend>
 
   <!-- Hardware dependencies -->
   <exec_depend>python3-serial</exec_depend>
@@ -33,15 +46,9 @@
   <exec_depend>udev</exec_depend>
 
   <!-- Component dependencies -->
-  <exec_depend>robot_visualization</exec_depend>
   <exec_depend>sllidar_ros2</exec_depend>
   <exec_depend>bno055</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>
-  <!-- Make sure these dependencies are included -->
-    <depend>geometry_msgs</depend>
-    <depend>ackermann_msgs</depend>
-    <!-- Remove this line since it's now integrated -->
-    <!-- <exec_depend>twist_to_ackermann</exec_depend> -->
   <exec_depend>robot_localization</exec_depend>
 
   <!-- Testing suite -->

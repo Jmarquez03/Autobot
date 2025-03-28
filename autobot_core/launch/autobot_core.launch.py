@@ -11,8 +11,8 @@ from launch.actions import DeclareLaunchArgument
 def generate_launch_description():
     # Launch arguments
     lidar_port = LaunchConfiguration('lidar_port', default='/dev/ttyUSB1')
-    esp32_port = LaunchConfiguration('esp32_port', default='/dev/ttyUSB0')
-    ackermann_port = LaunchConfiguration('ackermann_port', default='/dev/ttyUSB2')
+    esp_port = LaunchConfiguration('esp_port', default='/dev/ttyUSB0')
+    nano_port = LaunchConfiguration('nano_port', default='/dev/ttyUSB2')
     use_rviz = LaunchConfiguration('use_rviz', default='true')
 
     # Get package directories
@@ -29,12 +29,12 @@ def generate_launch_description():
             description='Serial port for LIDAR'
         ),
         DeclareLaunchArgument(
-            'esp32_port',
+            'esp_port',
             default_value='/dev/ttyUSB0',
-            description='Serial port for ESP32'
+           description='Serial port for ESP32'
         ),
         DeclareLaunchArgument(
-            'ackermann_port',
+            'nano_port',
             default_value='/dev/ttyUSB2',
             description='Serial port for Ackermann controller'
         ),
@@ -66,7 +66,7 @@ def generate_launch_description():
                 get_package_share_directory('autobot_core'),
                 '/launch/esp32_interface.launch.py'
             ]),
-            launch_arguments={'serial_port': esp32_port}.items()
+            launch_arguments={'serial_port': esp_port}.items()
         ),
 
         # Ackermann converter node
@@ -74,7 +74,7 @@ def generate_launch_description():
             package='autobot_core',
             executable='twist_to_ackermann_converter',
             output='screen',
-            parameters=[{'serial_port': ackermann_port}]  # Added parameter for serial port
+            parameters=[{'serial_port': nano_port}]  # Added parameter for serial port
         ),
 
         # SLAM Toolbox launch
@@ -86,6 +86,21 @@ def generate_launch_description():
             launch_arguments={
                 'params_file': os.path.join(autobot_core_dir, 'config', 'slam_toolbox_params.yaml'),
                 'use_sim_time': 'false'
+            }.items()
+        ),
+
+        # Nav2 launch with custom parameters
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('nav2_bringup'),
+                '/launch/bringup_launch.py'
+            ]),
+            launch_arguments={
+                'params_file': os.path.join(autobot_core_dir, 'config', 'nav2_params.yaml'),
+                'use_sim_time': 'false',
+                'map_subscribe_transient_local': 'true',
+                'default_bt_xml_filename': 'nav2_bt_navigator/navigate_w_replanning_and_recovery.xml',
+                'autostart': 'true'
             }.items()
         ),
 

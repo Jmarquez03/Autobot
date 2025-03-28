@@ -71,7 +71,8 @@ class TwistToAckermannConverter(Node):
         # Create SINGLE Ackermann message
         ackermann_msg = AckermannDriveStamped()
         ackermann_msg.header.stamp = self.get_clock().now().to_msg()
-        ackermann_msg.header.frame_id = "base_footprint"
+        # Line 74 in Ackermann message
+        ackermann_msg.header.frame_id = "base_footprint"  # Should be "base_link"
         ackermann_msg.drive.speed = msg.linear.x
         ackermann_msg.drive.steering_angle = steering_angle  # Use converted angle
         
