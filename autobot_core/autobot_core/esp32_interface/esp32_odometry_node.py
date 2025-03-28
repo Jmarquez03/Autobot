@@ -43,9 +43,15 @@ class ESP32OdometryNode(Node):
             return
             
         # Convert Twist to motor commands using differential drive kinematics
-        wheel_separation = 0.2  # Must match ESP32 value
-        left_speed = msg.linear.x - (msg.angular.z * wheel_separation / 2)
-        right_speed = msg.linear.x + (msg.angular.z * wheel_separation / 2)
+        # In __init__:
+        self.declare_parameter('wheel_separation', 0.2)  # Should match physical measurement
+        self.wheel_separation = self.get_parameter('wheel_separation').value
+        
+        # In cmd_vel_callback:
+        # Convert to rear wheel speeds (assuming rear-wheel drive)
+        left_rear_speed = msg.linear.x - (msg.angular.z * self.wheel_separation / 2)
+        right_rear_speed = msg.linear.x + (msg.angular.z * self.wheel_separation / 2)
+        command = f"CMD:{left_rear_speed:.2f},{right_rear_speed:.2f}\n"
     
         # Send command in ESP32's expected format
         command = f"CMD:{left_speed:.2f},{right_speed:.2f}\n"  # NOTICE THE COLON
