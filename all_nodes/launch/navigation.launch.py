@@ -12,15 +12,25 @@ def generate_launch_description():
     # Get the package directory
     all_nodes_dir = get_package_share_directory('all_nodes')
     
+    # Calculate workspace root (go up one level from all_nodes)
+    workspace_root = os.path.dirname(os.path.dirname(all_nodes_dir))
+    
     # Launch arguments
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     map_dir = LaunchConfiguration('map_dir', default=os.path.join(all_nodes_dir, 'maps'))
     map_file = LaunchConfiguration('map_file', default=os.path.join(map_dir, 'map.yaml'))
     
-    # Nav2 params file
-    nav_params_file = os.path.join(all_nodes_dir, 'config', 'nav2_params.yaml')
+    # Nav2 params file - directly point to the file in nav2 folder
+    nav_params_file = os.path.join(workspace_root, 'nav2', 'nav2_params.yaml')
+    
+    # Fallback to robot_local_params if the nav2_params.yaml doesn't exist
     if not os.path.exists(nav_params_file):
+        # Log a warning
+        print("WARNING: Could not find nav2_params.yaml at", nav_params_file)
+        print("Falling back to robot_local_params.yaml")
         nav_params_file = os.path.join(all_nodes_dir, 'config', 'robot_local_params.yaml')
+    else:
+        print("Using navigation parameters from:", nav_params_file)
     
     # Create parameter map for substitutions
     param_substitutions = {

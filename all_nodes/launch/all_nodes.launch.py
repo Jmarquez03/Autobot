@@ -102,12 +102,6 @@ def generate_launch_description():
             }.items()
         ),
 
-        # Include thermocouple
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([
-                os.path.join(all_nodes_dir, 'launch', 'thermocouple.launch.py')
-            ])
-        )
 
         # Add to base_components list:
         IncludeLaunchDescription(
