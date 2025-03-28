@@ -38,6 +38,7 @@ setup(
             'mission_controller = all_nodes.mission_controller:main',
             'fire_detector = all_nodes.fire_detector_node:main',
             'hardware_diagnostics = all_nodes.hardware_diagnostics_node:main',
+            'thermocouple_node = all_nodes.thermocouple_node:main',
         ],
     },
 )

@@ -100,7 +100,26 @@ def generate_launch_description():
             launch_arguments={
                 'use_sim_time': use_sim_time
             }.items()
+        ),
+
+        # Include thermocouple
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                os.path.join(all_nodes_dir, 'launch', 'thermocouple.launch.py')
+            ])
         )
+
+        # Add to base_components list:
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                os.path.join(all_nodes_dir, 'launch', 'thermocouple.launch.py')
+            ]),
+            launch_arguments={
+                'use_sim_time': use_sim_time,
+                'serial_port': LaunchConfiguration('arduino_port', default='/dev/ttyUSB3')
+            }.items()
+        ),
+
     ]
     
     # SLAM mode components
@@ -187,6 +206,14 @@ def generate_launch_description():
         'use_sim_time',
         default_value='false',
         description='Use simulation (Gazebo) clock if true'
+    ))
+
+
+    # Add a new launch argument:
+    ld.add_action(DeclareLaunchArgument(
+        'arduino_port',
+        default_value='/dev/ttyUSB3',
+        description='Serial port for Arduino with MAX6675 thermocouple'
     ))
     
     ld.add_action(DeclareLaunchArgument(

@@ -17,7 +17,7 @@ class FireDetectorNode(Node):
         super().__init__('fire_detector_node')
         
         # Parameters
-        self.declare_parameter('temperature_threshold', 50.0)
+        self.declare_parameter('temperature_threshold', 100.0)
         self.declare_parameter('confidence_threshold', 0.7)
         self.declare_parameter('window_size', 10)
         
@@ -80,6 +80,7 @@ class FireDetectorNode(Node):
         self.detection_history = []
         self.fire_detected = False
         self.fire_locations = []
+        self.last_temp_reported = 0.0  # Track last temperature for logging
         
         # Set up TF buffer/listener for getting robot pose
         self.tf_buffer = tf2_ros.Buffer()
@@ -87,12 +88,19 @@ class FireDetectorNode(Node):
         
         # Create timer for visualization
         self.marker_timer = self.create_timer(0.5, self.publish_markers)
-        
-        self.get_logger().info('Fire detector initialized with thermocouple support')
+        # Create timer for periodic temperature logging (every 5 seconds)
+        self.log_timer = self.create_timer(5.0, self.log_temperature)
+        self.get_logger().info(f'Fire detector initialized with thermocouple support. Detection threshold: {self.temp_threshold}°C')
         
     def temperature_callback(self, msg):
         # Add temperature to window
+        temperature = msg.temperature
         self.temp_window.append(msg.temperature)
+        self.temp_window.append(temperature)
+        
+      # Direct check for high temperature
+        if temperature > self.temp_threshold:
+            self.handle_high_temperature(temperature)
         
         # Keep window at specified size
         if len(self.temp_window) > self.window_size:
@@ -104,7 +112,13 @@ class FireDetectorNode(Node):
             
     def float32_callback(self, msg):
         # Add temperature to window
-        self.temp_window.append(msg.data)
+        temperature = msg.data
+        self.last_temp_reported = temperature
+        self.temp_window.append(temperature)
+        
+        # Direct check for high temperature
+        if temperature > self.temp_threshold:
+            self.handle_high_temperature(temperature)
         
         # Keep window at specified size
         if len(self.temp_window) > self.window_size:
@@ -113,10 +127,18 @@ class FireDetectorNode(Node):
         # Process temperature data for fire detection
         if len(self.temp_window) == self.window_size:
             self.process_temperature_data()
+
+        
             
     def float64_callback(self, msg):
         # Add temperature to window
-        self.temp_window.append(msg.data)
+        temperature = msg.data
+        self.last_temp_reported = temperature
+        self.temp_window.append(temperature)
+        
+        # Direct check for high temperature
+        if temperature > self.temp_threshold:
+            self.handle_high_temperature(temperature)
         
         # Keep window at specified size
         if len(self.temp_window) > self.window_size:
@@ -125,6 +147,25 @@ class FireDetectorNode(Node):
         # Process temperature data for fire detection
         if len(self.temp_window) == self.window_size:
             self.process_temperature_data()
+
+    
+    def handle_high_temperature(self, temperature):
+        """Immediately respond to a high temperature reading"""
+        # Only record if we haven't already detected a fire
+        if not self.fire_detected:
+            self.get_logger().warn(f'HIGH TEMPERATURE DETECTED: {temperature:.1f}°C')
+            self.fire_detected = True
+            self.record_fire_location()
+            
+            # Publish detection status
+            msg = Bool()
+            msg.data = True
+            self.fire_detected_pub.publish(msg)
+    
+    def log_temperature(self):
+        """Periodically log the current temperature"""
+        if self.last_temp_reported > 0:
+            self.get_logger().info(f'Current temperature: {self.last_temp_reported:.1f}°C')
             
     def process_temperature_data(self):
         # Calculate statistics
@@ -215,16 +256,16 @@ class FireDetectorNode(Node):
             # Set position
             marker.pose = fire_loc.pose
             
-            # Set scale
-            marker.scale.x = 0.3
-            marker.scale.y = 0.3
-            marker.scale.z = 0.3
+            # Set scale - make it larger for better visibility
+            marker.scale.x = 0.5
+            marker.scale.y = 0.5
+            marker.scale.z = 0.5
             
-            # Set color (red)
+            # Set color (bright red with orange glow)
             marker.color.r = 1.0
-            marker.color.g = 0.2
+            marker.color.g = 0.3
             marker.color.b = 0.0
-            marker.color.a = 0.8
+            marker.color.a = 0.9
             
             marker_array.markers.append(marker)
             
