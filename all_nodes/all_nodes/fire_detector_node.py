@@ -96,7 +96,6 @@ class FireDetectorNode(Node):
         # Add temperature to window
         temperature = msg.temperature
         self.temp_window.append(msg.temperature)
-        self.temp_window.append(temperature)
         
       # Direct check for high temperature
         if temperature > self.temp_threshold:

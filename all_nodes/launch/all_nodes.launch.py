@@ -153,7 +153,7 @@ def generate_launch_description():
             output='screen',
             parameters=[{
                 'use_sim_time': use_sim_time,
-                'temperature_threshold': 50.0,
+                'temperature_threshold': 100.0,
                 'confidence_threshold': 0.7,
                 'window_size': 10,
                 'thermocouple_topic': '/thermocouple/temperature',
