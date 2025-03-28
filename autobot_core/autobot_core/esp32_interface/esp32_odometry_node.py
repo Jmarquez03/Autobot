@@ -82,23 +82,23 @@ class ESP32OdometryNode(Node):
                     odom_quat.w = math.cos(theta / 2)
 
                     # Set up pose covariance (6x6)
+                    # In update_odometry():
                     pose_covariance = [
-                        0.001, 0.0, 0.0, 0.0, 0.0, 0.0,      # x
-                        0.0, 0.001, 0.0, 0.0, 0.0, 0.0,      # y
-                        0.0, 0.0, 0.001, 0.0, 0.0, 0.0,      # z
-                        0.0, 0.0, 0.0, 0.001, 0.0, 0.0,      # roll
-                        0.0, 0.0, 0.0, 0.0, 0.001, 0.0,      # pitch
-                        0.0, 0.0, 0.0, 0.0, 0.0, 0.001       # yaw
+                        0.05, 0.0, 0.0, 0.0, 0.0, 0.0,      # x (wheel slip)
+                        0.0, 0.05, 0.0, 0.0, 0.0, 0.0,      # y (wheel slip)
+                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0,       # z (irrelevant for ground robot)
+                        0.0, 0.0, 0.0, 0.1, 0.0, 0.0,       # roll (should be near 0)
+                        0.0, 0.0, 0.0, 0.0, 0.1, 0.0,       # pitch (should be near 0)
+                        0.0, 0.0, 0.0, 0.0, 0.0, 0.3        # yaw (accumulates most error)
                     ]
-
-                    # Set up twist covariance (6x6)
+                    
                     twist_covariance = [
-                        0.001, 0.0, 0.0, 0.0, 0.0, 0.0,      # vx
-                        0.0, 0.001, 0.0, 0.0, 0.0, 0.0,      # vy
-                        0.0, 0.0, 0.001, 0.0, 0.0, 0.0,      # vz
-                        0.0, 0.0, 0.0, 0.001, 0.0, 0.0,      # angular vx
-                        0.0, 0.0, 0.0, 0.0, 0.001, 0.0,      # angular vy
-                        0.0, 0.0, 0.0, 0.0, 0.0, 0.001       # angular vz
+                        0.1, 0.0, 0.0, 0.0, 0.0, 0.0,       # vx (encoder uncertainty)
+                        0.0, 0.1, 0.0, 0.0, 0.0, 0.0,       # vy (non-holonomic should be 0)
+                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0,       # vz 
+                        0.0, 0.0, 0.0, 0.3, 0.0, 0.0,       # angular vx
+                        0.0, 0.0, 0.0, 0.0, 0.3, 0.0,       # angular vy
+                        0.0, 0.0, 0.0, 0.0, 0.0, 0.4        # angular vz (most critical)
                     ]
 
                     # Create and fill odometry message

@@ -1,0 +1,6 @@
+ros2 launch nav2_bringup bringup_launch.py \
+  use_sim_time:=false \
+  params_file:=/Users/ajrivera/code/Autobot/autobot_core/config/nav2_params.yaml \
+  map_subscribe_transient_local:=true \
+  default_bt_xml_filename:=nav2_bt_navigator/navigate_w_replanning_and_recovery.xml \
+  autostart:=true

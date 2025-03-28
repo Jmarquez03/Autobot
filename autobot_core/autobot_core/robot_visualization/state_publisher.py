@@ -73,28 +73,23 @@ class StatePublisher(Node):
         return joint_state
 
     def update_transform(self):
-        odom_trans = TransformStamped()
-        odom_trans.header.stamp = self.get_clock().now().to_msg()
-        odom_trans.header.frame_id = 'odom'
-        odom_trans.child_frame_id = 'base_footprint'
-        
-        # Update robot position and orientation
-        dt = 0.033
-        dx = self.linear_velocity * cos(self.steering_angle) * dt
-        dy = self.linear_velocity * sin(self.steering_angle) * dt
-        dtheta = self.angular_velocity * dt
-        
-        self.x += dx
-        self.y += dy
-        self.theta += dtheta
-        
-        # Set transform
-        odom_trans.transform.translation.x = self.x
-        odom_trans.transform.translation.y = self.y
-        odom_trans.transform.translation.z = 0.0
-        odom_trans.transform.rotation = self.euler_to_quaternion(0, 0, self.theta)
-        
-        return odom_trans
+        # COMPLETELY REMOVE THIS METHOD
+        pass
+
+    def run(self):
+        try:
+            while rclpy.ok():
+                rclpy.spin_once(self)
+                
+                joint_state = self.update_joint_states()
+                
+                # Only publish joint states, not transforms
+                self.joint_pub.publish(joint_state)
+                
+                self.get_clock().sleep_for(rclpy.duration.Duration(seconds=0.033))
+                
+        except KeyboardInterrupt:
+            pass
 
     def euler_to_quaternion(self, roll, pitch, yaw):
         cy = cos(yaw * 0.5)
@@ -110,22 +105,6 @@ class StatePublisher(Node):
         qz = sy * cp * cr - cy * sp * sr
 
         return Quaternion(x=qx, y=qy, z=qz, w=qw)
-
-    def run(self):
-        try:
-            while rclpy.ok():
-                rclpy.spin_once(self)
-                
-                joint_state = self.update_joint_states()
-                odom_trans = self.update_transform()
-                
-                self.joint_pub.publish(joint_state)
-                self.broadcaster.sendTransform(odom_trans)
-                
-                self.get_clock().sleep_for(rclpy.duration.Duration(seconds=0.033))
-                
-        except KeyboardInterrupt:
-            pass
 
 def main():
     rclpy.init()
