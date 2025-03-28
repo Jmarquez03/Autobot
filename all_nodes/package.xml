@@ -19,6 +19,21 @@
   <depend>tf2_ros</depend>
   <depend>ackermann_msgs</depend>
   <depend>std_srvs</depend>
+  <depend>std_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>nav2_msgs</depend>
+
+  <!-- Navigation-specific dependencies -->
+  <depend>nav2_map_server</depend>
+  <depend>nav2_amcl</depend>
+  <depend>nav2_lifecycle_manager</depend>
+  <depend>nav2_planner</depend>
+  <depend>nav2_controller</depend>
+  <depend>nav2_bt_navigator</depend>
+  <depend>nav2_recoveries</depend>
+  <depend>nav2_waypoint_follower</depend>
+  <depend>nav2_common</depend>
 
   <!-- Hardware whisperers -->
   <depend>python3-serial</depend>

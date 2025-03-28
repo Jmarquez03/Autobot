@@ -22,11 +22,9 @@ setup(
         (os.path.join('share', package_name, 'config'),
          glob('config/*.yaml')),
          
-        # # Add these steamy extras for full compliance
-        # (os.path.join('share', package_name, 'meshes'), 
-        #  glob('meshes/*')),
-        # (os.path.join('share', package_name, 'urdf'), 
-        #  glob('urdf/*')),
+        # Maps directory (create an empty README to ensure directory exists)
+        (os.path.join('share', package_name, 'maps'),
+         []),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -37,7 +35,9 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'all_nodes = all_nodes.launch.all_nodes:generate_launch_description',
+            'mission_controller = all_nodes.mission_controller:main',
+            'fire_detector = all_nodes.fire_detector_node:main',
+            'hardware_diagnostics = all_nodes.hardware_diagnostics_node:main',
         ],
     },
 )
