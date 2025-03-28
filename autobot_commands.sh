@@ -38,16 +38,14 @@ hardware_setup() {
             hardware_setup
             ;;
         2)
-            # In the hardware_setup function, update the USB permissions section:
-            2)
-                echo "Setting USB permissions..."
-                sudo chmod 777 /dev/ttyUSB0
-                sudo chmod 777 /dev/ttyUSB1
-                sudo chmod 777 /dev/ttyUSB2
-                echo "Permissions set!"
-                read -p "Press Enter to continue..."
-                hardware_setup
-                ;;
+            echo "Setting USB permissions..."
+            sudo chmod 777 /dev/ttyUSB0
+            sudo chmod 777 /dev/ttyUSB1
+            sudo chmod 777 /dev/ttyUSB2
+            echo "Permissions set!"
+            read -p "Press Enter to continue..."
+            hardware_setup
+            ;;  # <-- This semicolon was missing
         0)
             show_menu
             ;;
