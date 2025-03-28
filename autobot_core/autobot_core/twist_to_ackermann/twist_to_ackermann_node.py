@@ -52,24 +52,36 @@ class TwistToAckermannConverter(Node):
         
         self.get_logger().info('Twist to Ackermann converter initialized')
         
+        self.declare_parameter('min_angle', 45.0)    # Updated to 45°
+        self.declare_parameter('max_angle', 135.0)  # Updated to 135°
+        self.declare_parameter('neutral_angle', 90.0) # Center at 90°
+        self.declare_parameter('max_angular', 1.0)   # Max turn rate in rad/s
+
     def cmd_vel_callback(self, msg):
-        # Convert Twist to Ackermann
+        # Get parameters properly
+        min_angle = self.get_parameter('min_angle').value
+        max_angle = self.get_parameter('max_angle').value
+        neutral_angle = self.get_parameter('neutral_angle').value
+        max_angular = self.get_parameter('max_angular').value
+        
+        # Convert angular velocity to servo angle (45-135° range)
+        steering_angle = neutral_angle + (msg.angular.z / max_angular) * (max_angle - neutral_angle)
+        steering_angle = max(min(steering_angle, max_angle), min_angle)
+        
+        # Create SINGLE Ackermann message
         ackermann_msg = AckermannDriveStamped()
         ackermann_msg.header.stamp = self.get_clock().now().to_msg()
         ackermann_msg.header.frame_id = "base_link"
-        
-        # Simple conversion (you may need to adjust these calculations for your robot)
         ackermann_msg.drive.speed = msg.linear.x
-        ackermann_msg.drive.steering_angle = msg.angular.z
+        ackermann_msg.drive.steering_angle = steering_angle  # Use converted angle
         
-        # Publish Ackermann message
+        # Publish to ROS
         self.publisher.publish(ackermann_msg)
         
-        # Send to serial port if available
+        # Send to serial ONCE with correct values
         if self.ser is not None:
             try:
-                # Format: speed,steering_angle\n
-                command = f"{msg.linear.x:.2f},{msg.angular.z:.2f}\n"
+                command = f"{msg.linear.x:.2f},{steering_angle:.2f}\n"
                 self.ser.write(command.encode())
             except serial.SerialException as e:
                 self.get_logger().error(f'Serial write error: {str(e)}')
