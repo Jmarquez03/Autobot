@@ -175,7 +175,8 @@ def generate_launch_description():
                 'exploration_radius': 3.0,
                 'exploration_points': 8,
                 'fire_approach_distance': 0.5,
-                'return_timeout': 180.0
+                'return_timeout': 180.0,
+                'use_frontier_exploration': True
             }],
             condition=autonomous_condition
         )
