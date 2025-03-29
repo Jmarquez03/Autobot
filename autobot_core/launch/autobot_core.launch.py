@@ -10,8 +10,8 @@ from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
     # Launch arguments
-    lidar_port = LaunchConfiguration('lidar_port', default='/dev/ttyUSB1')
     esp_port = LaunchConfiguration('esp_port', default='/dev/ttyUSB0')
+    lidar_port = LaunchConfiguration('lidar_port', default='/dev/ttyUSB1')
     nano_port = LaunchConfiguration('nano_port', default='/dev/ttyUSB2')
     use_rviz = LaunchConfiguration('use_rviz', default='true')
 

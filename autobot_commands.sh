@@ -4,6 +4,7 @@
 
 #make file executable
 #chmod +x autobot_commands.sh
+
 #run file
 #./autobot_commands.sh
 
