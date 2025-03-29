@@ -10,129 +10,132 @@ from geometry_msgs.msg import TransformStamped
 class ESP32OdometryNode(Node):
     def __init__(self):
         super().__init__('esp32_odometry_node')
-        
-        # Declare parameters
+        # Add frame ID parameters
+        self.declare_parameter('odom_frame_id', 'odom')
+        self.declare_parameter('base_frame_id', 'base_footprint')
         self.declare_parameter('serial_port', '/dev/ttyUSB0')
         self.declare_parameter('baud_rate', 115200)
         
-        # Get parameters
-        self.serial_port_path = self.get_parameter('serial_port').get_parameter_value().string_value
-        self.baud_rate = self.get_parameter('baud_rate').get_parameter_value().integer_value
-        
-        # Try to open serial port with error handling
-        self.serial_available = False
+        # Initialize serial connection
         try:
-            self.serial_port = serial.Serial(self.serial_port_path, self.baud_rate, timeout=1)
+            self.serial_port = serial.Serial(
+                self.get_parameter('serial_port').value,
+                self.get_parameter('baud_rate').value,
+                timeout=1.0
+            )
             self.serial_available = True
-            self.get_logger().info(f"Connected to ESP32 on {self.serial_port_path}")
+            self.get_logger().info(f"Connected to {self.get_parameter('serial_port').value}")
         except serial.SerialException as e:
-            self.get_logger().error(f"Could not open serial port {self.serial_port_path}: {str(e)}")
-            self.get_logger().warn("Running in simulation mode - odometry data will not be available")
-            self.serial_port = None
+            self.get_logger().error(f"Failed to open serial port: {e}")
+            self.serial_available = False
         
-        self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
-        self.cmd_vel_sub = self.create_subscription(Twist, 'cmd_vel', self.cmd_vel_callback, 10)
-        
+        # Initialize transform broadcaster
         self.tf_broadcaster = TransformBroadcaster(self)
         
-        self.timer = self.create_timer(0.01, self.update_odometry)  # 100Hz
-
-    def cmd_vel_callback(self, msg):
-        # Skip if serial is not available
-        if not self.serial_available:
-            return
-            
-        # Convert Twist to motor commands using differential drive kinematics
-        # In __init__:
-        self.declare_parameter('wheel_separation', 0.2)  # Should match physical measurement
-        self.wheel_separation = self.get_parameter('wheel_separation').value
+        # Initialize odometry publisher
+        self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
         
-        # In cmd_vel_callback:
-        # Convert to rear wheel speeds (assuming rear-wheel drive)
-        left_rear_speed = msg.linear.x - (msg.angular.z * self.wheel_separation / 2)
-        right_rear_speed = msg.linear.x + (msg.angular.z * self.wheel_separation / 2)
-        command = f"CMD:{left_rear_speed:.2f},{right_rear_speed:.2f}\n"
-    
-        # Send command in ESP32's expected format
-        command = f"CMD:{left_speed:.2f},{right_speed:.2f}\n"  # NOTICE THE COLON
-        try:
-            self.serial_port.write(command.encode('ascii'))
-        except serial.SerialException as e:
-            self.get_logger().error(f"Serial write error: {str(e)}")
-            self.serial_available = False  # Mark serial as unavailable after error
-
+        # Create timer for odometry updates
+        self.timer = self.create_timer(0.02, self.update_odometry)  # 50Hz updates
+        
+        # Add synchronization in __init__
+        if self.serial_available:
+            self.serial_port.reset_input_buffer()
+            self.serial_port.write(b"SYNC\n")
+            self.get_logger().info("Serial buffer reset")
 
     def update_odometry(self):
         if not self.serial_available:
             return
             
         try:
-            if self.serial_port.in_waiting > 0:
-                data = self.serial_port.readline().decode().strip().split(',')
-                if len(data) == 6:
-                    x, y, theta, vx, vy, vtheta = map(float, data)
-                    
-                    current_time = self.get_clock().now()
-                    
-                    # Create quaternion from yaw
-                    odom_quat = Quaternion()
-                    odom_quat.x = 0.0
-                    odom_quat.y = 0.0
-                    odom_quat.z = math.sin(theta / 2)
-                    odom_quat.w = math.cos(theta / 2)
+            # Check if data is available
+            if self.serial_port.in_waiting >= 20:  # Minimum expected data length
+                raw_data = self.serial_port.readline().decode(errors='replace').strip()
+                
+                if not raw_data.startswith(("ERR:", "CMD:")) and ',' in raw_data:
+                    data = raw_data.split(',')
+                    if len(data) == 6:
+                        x, y, theta, vx, vy, vtheta = map(float, data)
+                        
+                        # Debug output
+                        self.get_logger().debug(f"Received odom: x={x}, y={y}, theta={theta}")
+                        
+                        current_time = self.get_clock().now()
+                        
+                        # Create quaternion from yaw
+                        odom_quat = Quaternion()
+                        odom_quat.x = 0.0
+                        odom_quat.y = 0.0
+                        odom_quat.z = math.sin(theta / 2)
+                        odom_quat.w = math.cos(theta / 2)
 
-                    # Set up pose covariance (6x6)
-                    # In update_odometry():
-                    pose_covariance = [
-                        0.05, 0.0, 0.0, 0.0, 0.0, 0.0,      # x (wheel slip)
-                        0.0, 0.05, 0.0, 0.0, 0.0, 0.0,      # y (wheel slip)
-                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0,       # z (irrelevant for ground robot)
-                        0.0, 0.0, 0.0, 0.1, 0.0, 0.0,       # roll (should be near 0)
-                        0.0, 0.0, 0.0, 0.0, 0.1, 0.0,       # pitch (should be near 0)
-                        0.0, 0.0, 0.0, 0.0, 0.0, 0.3        # yaw (accumulates most error)
-                    ]
-                    
-                    twist_covariance = [
-                        0.1, 0.0, 0.0, 0.0, 0.0, 0.0,       # vx (encoder uncertainty)
-                        0.0, 0.1, 0.0, 0.0, 0.0, 0.0,       # vy (non-holonomic should be 0)
-                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0,       # vz 
-                        0.0, 0.0, 0.0, 0.3, 0.0, 0.0,       # angular vx
-                        0.0, 0.0, 0.0, 0.0, 0.3, 0.0,       # angular vy
-                        0.0, 0.0, 0.0, 0.0, 0.0, 0.4        # angular vz (most critical)
-                    ]
+                        # Set up pose covariance (6x6)
+                        pose_covariance = [
+                            0.01, 0.0, 0.0, 0.0, 0.0, 0.0,  # Tightened values
+                            0.0, 0.01, 0.0, 0.0, 0.0, 0.0,
+                            0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                            0.0, 0.0, 0.0, 0.05, 0.0, 0.0,
+                            0.0, 0.0, 0.0, 0.0, 0.05, 0.0,
+                            0.0, 0.0, 0.0, 0.0, 0.0, 0.1
+                        ]
+                        
+                        twist_covariance = [
+                            0.05, 0.0, 0.0, 0.0, 0.0, 0.0,
+                            0.0, 0.05, 0.0, 0.0, 0.0, 0.0,
+                            0.0, 0.0, 1.0, 0.0, 0.0, 0.0,
+                            0.0, 0.0, 0.0, 0.1, 0.0, 0.0,
+                            0.0, 0.0, 0.0, 0.0, 0.1, 0.0,
+                            0.0, 0.0, 0.0, 0.0, 0.0, 0.2
+                        ]
 
-                    # Create and fill odometry message
-                    odom = Odometry()
-                    odom.header.stamp = current_time.to_msg()
-                    odom.header.frame_id = "odom"
-                    odom.child_frame_id = "base_footprint"
-                    
-                    # Set pose
-                    odom.pose.pose.position = Point(x=x, y=y, z=0.0)
-                    odom.pose.pose.orientation = odom_quat
-                    odom.pose.covariance = pose_covariance
+                        # Create and fill odometry message
+                        odom = Odometry()
+                        odom.header.stamp = current_time.to_msg()
+                        odom.header.frame_id = self.get_parameter('odom_frame_id').value
+                        odom.child_frame_id = self.get_parameter('base_frame_id').value
+                        
+                        # Set position
+                        odom.pose.pose.position.x = x
+                        odom.pose.pose.position.y = y
+                        odom.pose.pose.position.z = 0.0
+                        odom.pose.pose.orientation = odom_quat
+                        odom.pose.covariance = pose_covariance
+                        
+                        # Set velocity
+                        odom.twist.twist.linear.x = vx
+                        odom.twist.twist.linear.y = vy
+                        odom.twist.twist.linear.z = 0.0
+                        odom.twist.twist.angular.x = 0.0
+                        odom.twist.twist.angular.y = 0.0
+                        odom.twist.twist.angular.z = vtheta
+                        odom.twist.covariance = twist_covariance
 
-                    # Set twist
-                    odom.twist.twist.linear = Vector3(x=vx, y=vy, z=0.0)
-                    odom.twist.twist.angular = Vector3(x=0.0, y=0.0, z=vtheta)
-                    odom.twist.covariance = twist_covariance
+                        # Publish odometry message
+                        self.odom_pub.publish(odom)
 
-                    self.odom_pub.publish(odom)
-
-                    # Publish transform
-                    t = TransformStamped()
-                    t.header.stamp = current_time.to_msg()
-                    t.header.frame_id = "odom"
-                    t.child_frame_id = "base_footprint"
-                    t.transform.translation.x = x
-                    t.transform.translation.y = y
-                    t.transform.translation.z = 0.0
-                    t.transform.rotation = odom_quat
-
-                    self.tf_broadcaster.sendTransform(t)
-        except serial.SerialException as e:
-            self.get_logger().error(f"Serial read error: {str(e)}")
-            self.serial_available = False  # Mark as unavailable after error
+                        # Publish transform
+                        t = TransformStamped()
+                        t.header.stamp = current_time.to_msg()
+                        t.header.frame_id = self.get_parameter('odom_frame_id').value
+                        t.child_frame_id = self.get_parameter('base_frame_id').value
+                        
+                        # Set transform translation
+                        t.transform.translation.x = x
+                        t.transform.translation.y = y
+                        t.transform.translation.z = 0.0
+                        
+                        # Set transform rotation
+                        t.transform.rotation = odom_quat
+                        
+                        # Send transform
+                        self.tf_broadcaster.sendTransform(t)
+                        
+                    else:
+                        self.get_logger().warn(f"Invalid data format: {raw_data}")
+                
+        except Exception as e:
+            self.get_logger().error(f"Error processing odometry data: {e}")
 
 def main(args=None):
     rclpy.init(args=args)

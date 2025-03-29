@@ -39,8 +39,12 @@ slam_toolbox:
     # General Parameters
     use_scan_matching: true
     use_scan_barycenter: true
-    minimum_travel_distance: 0.5
-    minimum_travel_heading: 0.5
+    # Adjust these parameters for better Ackermann performance
+    minimum_travel_distance: 0.3  # Reduced from 0.5 for more frequent updates
+    minimum_travel_heading: 0.3   # Reduced from 0.5 for more frequent updates
+    
+    # Add this parameter for Ackermann robots
+    map_start_pose: [0.0, 0.0, 0.0]  # Uncomment to set initial pose
     scan_buffer_size: 10
     scan_buffer_maximum_scan_distance: 10.0
     link_match_minimum_response_fine: 0.1  

@@ -11,16 +11,13 @@ from tf2_ros import TransformBroadcaster, TransformStamped
 class StatePublisher(Node):
     def __init__(self):
         super().__init__('state_publisher')
-        
-        # Publishers and Subscribers
-        qos_profile = QoSProfile(depth=10)
-        self.joint_pub = self.create_publisher(JointState, 'joint_states', qos_profile)
-        self.broadcaster = TransformBroadcaster(self, qos=qos_profile)
+        # Remove transform publishing
+        self.joint_pub = self.create_publisher(JointState, 'joint_states', 10)
         self.cmd_vel_sub = self.create_subscription(Twist, 'cmd_vel', self.cmd_vel_callback, 10)
         
-        # Robot parameters
-        self.wheel_radius = 0.05
-        self.wheel_separation = 0.15
+        # Match physical robot parameters
+        self.wheel_radius = 0.05  # Must match real wheels
+        self.wheel_separation = 0.2  # Must match ESP32 node's wheel_separation
         
         # State variables
         self.linear_velocity = 0.0
