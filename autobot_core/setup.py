@@ -13,17 +13,17 @@ setup(
         (os.path.join('share', 'ament_index', 'resource_index', 'packages'),
          [os.path.join('resource', package_name)]),
         (os.path.join('share', package_name), ['package.xml']),
-        
+
         # Launch files
-        (os.path.join('share', package_name, 'launch'), 
+        (os.path.join('share', package_name, 'launch'),
          glob(os.path.join('launch', '*.launch.py'))),
-        
+
         # Config files - include both yaml and rviz files
         (os.path.join('share', package_name, 'config'),
          glob('config/*.yaml') + glob('config/*.rviz')),
-         
+
         # URDF files
-        (os.path.join('share', package_name, 'urdf'), 
+        (os.path.join('share', package_name, 'urdf'),
          glob('urdf/*')),
     ],
     install_requires=['setuptools'],
@@ -38,6 +38,10 @@ setup(
             'esp32_odometry_node = autobot_core.esp32_interface.esp32_odometry_node:main',
             'state_publisher = autobot_core.robot_visualization.state_publisher:main',
             'twist_to_ackermann_converter = autobot_core.twist_to_ackermann.twist_to_ackermann_node:main'
+            'fire_detector = autobot_core.fire_detector_node:main',
+            'hardware_diagnostics = autobot_core.hardware_diagnostics_node:main',
+            'mission_controller = autobot_core.mission_controller:main',
+            'thermocouple_node = autobot_core.thermocouple_node:main',
         ],
     },
 )
