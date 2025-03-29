@@ -37,7 +37,10 @@ setup(
         'console_scripts': [
             'esp32_odometry_node = autobot_core.esp32_interface.esp32_odometry_node:main',
             'state_publisher = autobot_core.robot_visualization.state_publisher:main',
-            'twist_to_ackermann_converter = autobot_core.twist_to_ackermann.twist_to_ackermann_node:main'
+            # Update this line to use the new converter with joint state publishing
+            'twist_to_ackermann_converter = autobot_core.twist_to_ackermann_converter:main',
+            'joint_state_publisher = autobot_core.robot_visualization.joint_state_publisher:main',
+            'autonomous_nav = autobot_core.navigation.autonomous_nav:main'
         ],
     },
 )

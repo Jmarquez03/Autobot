@@ -11,7 +11,7 @@ def generate_launch_description():
     # Get the URDF file path
     urdf_file_name = 'robot.urdf.xml'
     urdf = os.path.join(
-        get_package_share_directory('autobot_core'),  # Changed from all_nodes
+        get_package_share_directory('autobot_core'),
         'urdf',
         urdf_file_name)
     
@@ -31,11 +31,11 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=[urdf]),
             
-        # Joint state publisher with GUI to manually control joints
+        # Custom joint state publisher that combines steering and wheel rotation
         Node(
-            package='joint_state_publisher_gui',
-            executable='joint_state_publisher_gui',
-            name='joint_state_publisher_gui',
+            package='autobot_core',
+            executable='joint_state_publisher',
+            name='joint_state_publisher',
             output='screen'),
             
         # RViz2 for visualization

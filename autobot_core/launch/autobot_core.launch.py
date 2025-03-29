@@ -56,7 +56,10 @@ def generate_launch_description():
         Node(
             package='sllidar_ros2',
             executable='sllidar_node',
-            parameters=[{'use_sim_time': False, 'serial_port': lidar_port}],
+            parameters=[{
+                'serial_port': lidar_port,
+                'frame_id': 'laser'
+            }],
             output='screen'
         ),
 
@@ -74,7 +77,11 @@ def generate_launch_description():
             package='autobot_core',
             executable='twist_to_ackermann_converter',
             output='screen',
-            parameters=[{'serial_port': nano_port}]  # Added parameter for serial port
+            parameters=[{
+                'serial_port': nano_port,
+                'wheelbase': 0.3,
+                'max_steering_angle': 0.6
+            }]
         ),
 
         # SLAM Toolbox launch
@@ -96,7 +103,7 @@ def generate_launch_description():
                 '/launch/bringup_launch.py'
             ]),
             launch_arguments={
-                'params_file': os.path.join(autobot_core_dir, 'config', 'nav2_params.yaml'),
+                'params_file': os.path.join(autobot_core_dir, 'config', 'nav2_ackermann_params.yaml'),
                 'use_sim_time': 'false',
                 'map_subscribe_transient_local': 'true',
                 'default_bt_xml_filename': 'nav2_bt_navigator/navigate_w_replanning_and_recovery.xml',

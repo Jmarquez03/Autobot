@@ -1,7 +1,8 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import Command, FindPackageShare, LaunchConfiguration
-from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 import os
 
@@ -15,7 +16,7 @@ def generate_launch_description():
     autobot_core_dir = get_package_share_directory('autobot_core')
     nav2_params_path = os.path.join(autobot_core_dir, 'config', 'nav2_ackermann_params.yaml')
     
-    ld = LaunchDescription([
+    return LaunchDescription([
         # Declare launch arguments
         DeclareLaunchArgument(
             'use_sim_time',
@@ -38,17 +39,21 @@ def generate_launch_description():
             description='Nano serial port'
         ),
         
-        # ESP32 odometry node
-        Node(
-            package='autobot_core',
-            executable='esp32_odometry_node',
-            name='esp32_odometry_node',
-            parameters=[{
-                'serial_port': esp_port,
-                'odom_frame_id': 'odom',
-                'base_frame_id': 'base_footprint'
-            }],
-            output='screen'
+        # Visualize the robot
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('autobot_core'),
+                '/launch/robot_visualization.launch.py'
+            ])
+        ),
+        
+        # ESP32 odometry interface
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('autobot_core'),
+                '/launch/esp32_interface.launch.py'
+            ]),
+            launch_arguments={'serial_port': esp_port}.items()
         ),
         
         # Twist to Ackermann converter
@@ -71,49 +76,23 @@ def generate_launch_description():
             name='sllidar_node',
             parameters=[{
                 'serial_port': lidar_port,
-                'frame_id': 'lidar_link'
+                'frame_id': 'laser'
             }],
             output='screen'
         ),
         
         # Nav2 bringup
-        Node(
-            package='nav2_bringup',
-            executable='bringup_launch.py',
-            name='nav2_bringup',
-            output='screen',
-            parameters=[{
-                'use_sim_time': use_sim_time,
-                'params_file': nav2_params_path
-            }]
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('nav2_bringup'),
+                '/launch/bringup_launch.py'
+            ]),
+            launch_arguments={
+                'params_file': nav2_params_path,
+                'use_sim_time': 'false',
+                'map_subscribe_transient_local': 'true',
+                'default_bt_xml_filename': 'nav2_bt_navigator/navigate_w_replanning_and_recovery.xml',
+                'autostart': 'true'
+            }.items()
         )
     ])
-    
-    # Add required transforms
-    ld.add_action(Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        output='screen',
-        parameters=[{
-            'robot_description': Command(['xacro ', FindPackageShare('autobot_core'), '/urdf/robot.urdf.xacro'])
-        }]
-    ))
-    
-    # Static transform for LIDAR
-    ld.add_action(Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='lidar_link_broadcaster',
-        arguments=['0', '0', '0.2', '0', '0', '0', 'base_link', 'lidar_link']
-    ))
-    
-    # Base footprint to base_link transform
-    ld.add_action(Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='base_footprint_broadcaster',
-        arguments=['0', '0', '0.1', '0', '0', '0', 'base_footprint', 'base_link']
-    ))
-    
-    return ld

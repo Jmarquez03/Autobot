@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from ackermann_msgs.msg import AckermannDriveStamped
+from sensor_msgs.msg import JointState
 import serial
 import math
 
@@ -46,6 +47,16 @@ class TwistToAckermannConverter(Node):
             10
         )
         
+        # Add joint state publisher for steering visualization
+        self.joint_state_pub = self.create_publisher(
+            JointState,
+            'steering_joint_states',
+            10
+        )
+        
+        # Current steering angle
+        self.current_steering_angle = 0.0
+        
         self.get_logger().info('Twist to Ackermann converter initialized')
     
     def cmd_vel_callback(self, msg):
@@ -64,6 +75,9 @@ class TwistToAckermannConverter(Node):
         # Limit steering angle
         steering_angle = max(min(steering_angle, self.max_steering_angle), -self.max_steering_angle)
         
+        # Update current steering angle
+        self.current_steering_angle = steering_angle
+        
         # Create Ackermann message (for debugging/visualization)
         ackermann_msg = AckermannDriveStamped()
         ackermann_msg.header.stamp = self.get_clock().now().to_msg()
@@ -72,6 +86,9 @@ class TwistToAckermannConverter(Node):
         ackermann_msg.drive.speed = linear_velocity
         
         self.ackermann_pub.publish(ackermann_msg)
+        
+        # Publish joint states for steering visualization
+        self.publish_steering_joint_states(steering_angle)
         
         # Send command to ESP32
         if self.serial_available:
@@ -82,6 +99,28 @@ class TwistToAckermannConverter(Node):
             except serial.SerialException as e:
                 self.get_logger().error(f"Serial write error: {e}")
                 self.serial_available = False
+    
+    def publish_steering_joint_states(self, steering_angle):
+        # Create joint state message for steering joints
+        joint_state = JointState()
+        joint_state.header.stamp = self.get_clock().now().to_msg()
+        
+        # Include only steering-related joints
+        joint_state.name = [
+            'steering_control_joint',
+            'front_left_pivot_joint',
+            'front_right_pivot_joint'
+        ]
+        
+        # Set the same angle for all steering joints
+        joint_state.position = [
+            steering_angle,
+            steering_angle,
+            steering_angle
+        ]
+        
+        # Publish the joint states
+        self.joint_state_pub.publish(joint_state)
 
 def main(args=None):
     rclpy.init(args=args)
