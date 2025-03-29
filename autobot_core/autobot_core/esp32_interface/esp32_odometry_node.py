@@ -15,6 +15,7 @@ class ESP32OdometryNode(Node):
         self.declare_parameter('base_frame_id', 'base_footprint')
         self.declare_parameter('serial_port', '/dev/ttyUSB0')
         self.declare_parameter('baud_rate', 115200)
+        self.declare_parameter('publish_tf', True)
         
         # Initialize serial connection
         try:
@@ -35,6 +36,15 @@ class ESP32OdometryNode(Node):
         # Initialize odometry publisher
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
         
+        # Subscribe to cmd_vel from the Ackermann controller
+        # Note: With ros2_control, we'll subscribe to the controller's output
+        self.cmd_vel_sub = self.create_subscription(
+            Twist,
+            'ackermann_controller/cmd_vel',  # Updated topic name
+            self.cmd_vel_callback,
+            10
+        )
+        
         # Create timer for odometry updates
         self.timer = self.create_timer(0.02, self.update_odometry)  # 50Hz updates
         
@@ -43,6 +53,23 @@ class ESP32OdometryNode(Node):
             self.serial_port.reset_input_buffer()
             self.serial_port.write(b"SYNC\n")
             self.get_logger().info("Serial buffer reset")
+
+    def cmd_vel_callback(self, msg):
+        """
+        Callback for cmd_vel messages from the Ackermann controller
+        Sends velocity commands to the ESP32
+        """
+        if not self.serial_available:
+            return
+            
+        try:
+            # Format command for ESP32: "VEL:linear_x,angular_z\n"
+            # With Ackermann controller, these values represent the desired vehicle motion
+            command = f"VEL:{msg.linear.x:.3f},{msg.angular.z:.3f}\n"
+            self.serial_port.write(command.encode())
+            self.get_logger().debug(f"Sent command: {command.strip()}")
+        except Exception as e:
+            self.get_logger().error(f"Error sending velocity command: {e}")
 
     def update_odometry(self):
         if not self.serial_available:
@@ -114,22 +141,23 @@ class ESP32OdometryNode(Node):
                         # Publish odometry message
                         self.odom_pub.publish(odom)
 
-                        # Publish transform
-                        t = TransformStamped()
-                        t.header.stamp = current_time.to_msg()
-                        t.header.frame_id = self.get_parameter('odom_frame_id').value
-                        t.child_frame_id = self.get_parameter('base_frame_id').value
-                        
-                        # Set transform translation
-                        t.transform.translation.x = x
-                        t.transform.translation.y = y
-                        t.transform.translation.z = 0.0
-                        
-                        # Set transform rotation
-                        t.transform.rotation = odom_quat
-                        
-                        # Send transform
-                        self.tf_broadcaster.sendTransform(t)
+                        # Publish transform if enabled
+                        if self.get_parameter('publish_tf').value:
+                            t = TransformStamped()
+                            t.header.stamp = current_time.to_msg()
+                            t.header.frame_id = self.get_parameter('odom_frame_id').value
+                            t.child_frame_id = self.get_parameter('base_frame_id').value
+                            
+                            # Set transform translation
+                            t.transform.translation.x = x
+                            t.transform.translation.y = y
+                            t.transform.translation.z = 0.0
+                            
+                            # Set transform rotation
+                            t.transform.rotation = odom_quat
+                            
+                            # Send transform
+                            self.tf_broadcaster.sendTransform(t)
                         
                     else:
                         self.get_logger().warn(f"Invalid data format: {raw_data}")

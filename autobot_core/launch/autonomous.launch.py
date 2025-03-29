@@ -1,6 +1,6 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, Command
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
@@ -15,6 +15,13 @@ def generate_launch_description():
     
     autobot_core_dir = get_package_share_directory('autobot_core')
     nav2_params_path = os.path.join(autobot_core_dir, 'config', 'nav2_ackermann_params.yaml')
+    controller_params_path = os.path.join(autobot_core_dir, 'config', 'ackermann_controller.yaml')
+    
+    # Get URDF via xacro
+    robot_description_content = Command(
+        ['xacro ', os.path.join(autobot_core_dir, 'urdf', 'robot.urdf.xml')]
+    )
+    robot_description = {'robot_description': robot_description_content}
     
     return LaunchDescription([
         # Declare launch arguments
@@ -39,12 +46,13 @@ def generate_launch_description():
             description='Nano serial port'
         ),
         
-        # Visualize the robot
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([
-                get_package_share_directory('autobot_core'),
-                '/launch/robot_visualization.launch.py'
-            ])
+        # Robot state publisher
+        Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            output='screen',
+            parameters=[robot_description]
         ),
         
         # ESP32 odometry interface
@@ -54,19 +62,6 @@ def generate_launch_description():
                 '/launch/esp32_interface.launch.py'
             ]),
             launch_arguments={'serial_port': esp_port}.items()
-        ),
-        
-        # Twist to Ackermann converter
-        Node(
-            package='autobot_core',
-            executable='twist_to_ackermann_converter',
-            name='twist_to_ackermann_converter',
-            parameters=[{
-                'serial_port': nano_port,
-                'wheelbase': 0.3,
-                'max_steering_angle': 0.6
-            }],
-            output='screen'
         ),
         
         # LIDAR node
@@ -81,18 +76,72 @@ def generate_launch_description():
             output='screen'
         ),
         
-        # Nav2 bringup
+        # Controller Manager
+        Node(
+            package='controller_manager',
+            executable='ros2_control_node',
+            parameters=[robot_description, controller_params_path],
+            output='screen',
+        ),
+        
+        # Joint State Broadcaster
+        Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster', '--controller-manager', '/controller_manager'],
+            output='screen',
+        ),
+        
+        # Ackermann Controller
+        Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['ackermann_controller', '--controller-manager', '/controller_manager'],
+            output='screen',
+        ),
+        
+        # Twist to Ackermann converter (for compatibility)
+        Node(
+            package='autobot_core',
+            executable='twist_to_ackermann_converter',
+            output='screen',
+            parameters=[{
+                'serial_port': nano_port,
+                'wheelbase': 0.3,
+                'max_steering_angle': 0.6,
+                'use_ros2_control': True
+            }]
+        ),
+        
+        # Nav2 launch
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 get_package_share_directory('nav2_bringup'),
-                '/launch/bringup_launch.py'
+                '/launch/navigation_launch.py'
             ]),
             launch_arguments={
                 'params_file': nav2_params_path,
-                'use_sim_time': 'false',
-                'map_subscribe_transient_local': 'true',
-                'default_bt_xml_filename': 'nav2_bt_navigator/navigate_w_replanning_and_recovery.xml',
-                'autostart': 'true'
+                'use_sim_time': use_sim_time
             }.items()
-        )
+        ),
+        
+        # SLAM Toolbox
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                get_package_share_directory('slam_toolbox'),
+                '/launch/online_async_launch.py'
+            ]),
+            launch_arguments={
+                'params_file': os.path.join(autobot_core_dir, 'config', 'slam_toolbox_params.yaml'),
+                'use_sim_time': use_sim_time
+            }.items()
+        ),
+        
+        # Autonomous navigation node
+        Node(
+            package='autobot_core',
+            executable='autonomous_nav',
+            name='autonomous_nav',
+            output='screen'
+        ),
     ])

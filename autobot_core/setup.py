@@ -25,6 +25,10 @@ setup(
         # URDF files
         (os.path.join('share', package_name, 'urdf'), 
          glob('urdf/*')),
+         
+        # Maps directory
+        (os.path.join('share', package_name, 'maps'),
+         glob('maps/*') if os.path.exists('maps') else []),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -37,10 +41,13 @@ setup(
         'console_scripts': [
             'esp32_odometry_node = autobot_core.esp32_interface.esp32_odometry_node:main',
             'state_publisher = autobot_core.robot_visualization.state_publisher:main',
-            # Update this line to use the new converter with joint state publishing
             'twist_to_ackermann_converter = autobot_core.twist_to_ackermann_converter:main',
             'joint_state_publisher = autobot_core.robot_visualization.joint_state_publisher:main',
-            'autonomous_nav = autobot_core.navigation.autonomous_nav:main'
+            'autonomous_nav = autobot_core.navigation.autonomous_nav:main',
+            'autobot_hardware_interface = autobot_core.hardware_interface.autobot_hardware_interface:main'
+        ],
+        'hardware_interface.robot_hardware': [
+            'autobot_core/AutobotHardwareInterface = autobot_core.hardware_interface.autobot_hardware_interface:AutobotHardwareInterface'
         ],
     },
 )

@@ -13,10 +13,12 @@ show_menu() {
     clear
     echo "===== AUTOBOT COMMAND CENTER ====="
     echo "1. Launch Complete Robot"
-    echo "2. Hardware Setup"
-    echo "3. Debugging Tools"
-    echo "4. Manual Control"
-    echo "5. Individual Component Launch"
+    echo "2. Launch Autonomous Navigation"
+    echo "3. Hardware Setup"
+    echo "4. Debugging Tools"
+    echo "5. Manual Control"
+    echo "6. Individual Component Launch"
+    echo "7. Controller Management"
     echo "0. Exit"
     echo "=================================="
     echo "Enter your choice: "
@@ -27,6 +29,7 @@ hardware_setup() {
     echo "===== HARDWARE SETUP ====="
     echo "1. Check USB devices"
     echo "2. Set USB permissions"
+    echo "3. Install ROS 2 Jazzy dependencies"
     echo "0. Back to main menu"
     echo "=========================="
     
@@ -46,7 +49,15 @@ hardware_setup() {
             echo "Permissions set!"
             read -p "Press Enter to continue..."
             hardware_setup
-            ;;  # <-- This semicolon was missing
+            ;;
+        3)
+            echo "Installing ROS 2 Jazzy dependencies..."
+            sudo apt update
+            sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-ackermann-steering-controller
+            echo "Dependencies installed!"
+            read -p "Press Enter to continue..."
+            hardware_setup
+            ;;
         0)
             show_menu
             ;;
@@ -64,6 +75,9 @@ debugging_tools() {
     echo "1. View TF tree"
     echo "2. List all topics"
     echo "3. Echo a specific topic"
+    echo "4. Monitor odometry data"
+    echo "5. Check Nav2 status"
+    echo "6. Check controller status"
     echo "0. Back to main menu"
     echo "==========================="
     
@@ -91,6 +105,22 @@ debugging_tools() {
             ros2 topic echo $topic_name
             debugging_tools
             ;;
+        4)
+            echo "Monitoring odometry data (press Ctrl+C to stop)..."
+            ros2 topic echo /odom
+            debugging_tools
+            ;;
+        5)
+            echo "Checking Nav2 status (press Ctrl+C to stop)..."
+            ros2 topic echo /navigate_to_pose/_action/status
+            debugging_tools
+            ;;
+        6)
+            echo "Checking controller status..."
+            ros2 control list_controllers
+            read -p "Press Enter to continue..."
+            debugging_tools
+            ;;
         0)
             show_menu
             ;;
@@ -102,46 +132,52 @@ debugging_tools() {
     esac
 }
 
-# Function for manual control
-manual_control() {
-    echo "Starting teleop keyboard control..."
-    echo "Use arrow keys to control the robot. Press Ctrl+C to exit."
-    ros2 run teleop_twist_keyboard teleop_twist_keyboard
-    read -p "Press Enter to continue..."
-    show_menu
-}
-
-# Function for individual component launch
-individual_components() {
-    echo "===== INDIVIDUAL COMPONENTS ====="
-    echo "1. Robot Visualization"
-    echo "2. LIDAR"
-    echo "3. IMU"
-    echo "4. ESP32 Odometry"
+# Function for controller management
+controller_management() {
+    echo "===== CONTROLLER MANAGEMENT ====="
+    echo "1. List controllers"
+    echo "2. Start controller"
+    echo "3. Stop controller"
+    echo "4. Reload controller"
+    echo "5. Send test command to Ackermann controller"
     echo "0. Back to main menu"
     echo "================================="
     
     read -p "Enter your choice: " choice
     case $choice in
         1)
-            echo "Launching Robot Visualization..."
-            ros2 launch autobot_core robot_visualization.launch.py
-            individual_components
+            echo "Listing controllers..."
+            ros2 control list_controllers
+            read -p "Press Enter to continue..."
+            controller_management
             ;;
         2)
-            echo "Launching LIDAR..."
-            ros2 launch sllidar_ros2 sllidar_a1_launch.py use_sim_time:=false serial_port:=/dev/ttyUSB1
-            individual_components
+            echo "Available controllers:"
+            ros2 control list_controllers
+            read -p "Enter controller name to start: " controller_name
+            ros2 control load_controller $controller_name
+            read -p "Press Enter to continue..."
+            controller_management
             ;;
         3)
-            echo "Launching IMU..."
-            ros2 run bno055 bno055 --ros-args --params-file /Users/ajrivera/code/Autobot/bno055/bno055/params/bno055_params_i2c.yaml
-            individual_components
+            echo "Active controllers:"
+            ros2 control list_controllers
+            read -p "Enter controller name to stop: " controller_name
+            ros2 control unload_controller $controller_name
+            read -p "Press Enter to continue..."
+            controller_management
             ;;
         4)
-            echo "Launching ESP32 Odometry..."
-            ros2 launch autobot_core esp32_interface.launch.py serial_port:=/dev/ttyUSB0
-            individual_components
+            echo "Reloading controllers..."
+            ros2 control reload_controller_libraries
+            read -p "Press Enter to continue..."
+            controller_management
+            ;;
+        5)
+            echo "Sending test command to Ackermann controller..."
+            ros2 topic pub /ackermann_controller/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.1}}" -1
+            read -p "Press Enter to continue..."
+            controller_management
             ;;
         0)
             show_menu
@@ -149,7 +185,7 @@ individual_components() {
         *)
             echo "Invalid option"
             read -p "Press Enter to continue..."
-            individual_components
+            controller_management
             ;;
     esac
 }
@@ -166,16 +202,31 @@ main_menu() {
             main_menu
             ;;
         2)
-            hardware_setup
+            echo "Launching autonomous navigation..."
+            ros2 launch autobot_core autonomous.launch.py
+            read -p "Press Enter to continue..."
+            main_menu
             ;;
         3)
-            debugging_tools
+            hardware_setup
             ;;
         4)
-            manual_control
+            debugging_tools
             ;;
         5)
-            individual_components
+            echo "Starting teleop keyboard control..."
+            echo "Use arrow keys to control the robot. Press Ctrl+C to exit."
+            ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/ackermann_controller/cmd_vel
+            read -p "Press Enter to continue..."
+            main_menu
+            ;;
+        6)
+            echo "Individual component launch not implemented yet"
+            read -p "Press Enter to continue..."
+            main_menu
+            ;;
+        7)
+            controller_management
             ;;
         0)
             echo "Exiting Autobot Command Center. Goodbye!"

@@ -1,6 +1,20 @@
-ros2 launch nav2_bringup bringup_launch.py \
-  use_sim_time:=false \
-  params_file:=/Users/ajrivera/code/Autobot/autobot_core/config/nav2_params.yaml \
-  map_subscribe_transient_local:=true \
-  default_bt_xml_filename:=nav2_bt_navigator/navigate_w_replanning_and_recovery.xml \
-  autostart:=true
+# Install ROS 2 Jazzy dependencies
+sudo apt update
+sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-ackermann-steering-controller
+
+# Build the workspace
+cd /Users/ajrivera/code/Autobot
+colcon build --symlink-install
+source install/setup.bash
+
+# Launch Nav2 with Ackermann controller
+ros2 launch autobot_core autonomous.launch.py
+
+# List controllers
+ros2 control list_controllers
+
+# Send a command to the Ackermann controller
+ros2 topic pub /ackermann_controller/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.1}}" -1
+
+# Run teleop with the controller
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/ackermann_controller/cmd_vel
